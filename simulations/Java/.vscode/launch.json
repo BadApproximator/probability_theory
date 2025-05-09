@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug RandomNumbersSwing",
+            "request": "launch",
+            "mainClass": "RandomNumbersSwing",
+            "console": "internalConsole"
+        },
+        
+    ]
+}
