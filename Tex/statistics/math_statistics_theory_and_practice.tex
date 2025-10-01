@@ -1,0 +1,1781 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc} % Кодировка
+\usepackage[english,russian]{babel} % Языковая поддержка
+\usepackage{amsmath, amssymb} % Математические символы
+\usepackage{amsthm} % Окружение proof
+\usepackage{geometry} % Настройка полей
+\usepackage{enumitem} % For enumerate
+\usepackage{hyperref} % Гиперссылки
+\usepackage[backend=biber, style=numeric]{biblatex} % bibliography
+\addbibresource{literature.bib} % подключение .bib-файла
+
+\usepackage{pgfplots} % Для построения графиков
+\pgfplotsset{compat=1.17} % Совместимость с вашей версией pgfplots
+
+\usepackage{fancyhdr} % колонтитулы
+\pagestyle{fancy} % включаем fancy стиль
+\makeatletter
+\renewcommand{\headrulewidth}{0.4pt} % толщина линии
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{%
+  \hrule width \dimexpr\paperwidth-2.5cm-2.5cm\relax height \headrulewidth \vskip-\headrulewidth
+}
+\renewcommand{\footrule}{%
+  \vskip-\footrulewidth\hrule width \dimexpr\paperwidth-2.5cm-2.5cm\relax height \footrulewidth \vskip\footrulewidth
+}
+\makeatother
+% Настройка верхнего колонтитула
+\fancyhead[L]{Конспект по математической статистике}       % Left
+\fancyhead[C]{}       % Center
+\fancyhead[R]{2025}      % Right
+
+% Настройка нижнего колонтитула
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage}            % номер страницы
+\fancyfoot[R]{Воротников А.В.}
+
+% Убираем автоматические линии сверху и снизу
+\renewcommand{\headrulewidth}{0.4pt}  % линия вверху (0pt = убрать)
+\renewcommand{\footrulewidth}{0.4pt}    % линия внизу
+
+\newcommand{\ph}{\varphi}
+\newcommand{\ep}{\varepsilon}
+\newcommand{\s}{\sigma}
+\newcommand{\ws}{\widetilde{\sigma}}
+\newcommand{\wmu}{\widetilde{\mu}}
+\newcommand{\w}{\widetilde}
+\newcommand{\vkappa}{\varkappa}
+\newcommand{\thetah}{\hat\theta}
+\newcommand{\bX}{\overline X}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\LC}{L^2_\mathbb{C}}
+\newcommand{\Co}{\mathbb{C}}
+\newcommand{\la}{\lambda}
+\newcommand{\sla}{\sqrt{\lambda}}
+\newcommand{\sm}{\sqrt{\mu_n}}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\Obig}[1]{O\left(#1\right)}
+
+\newcommand{\llangle}{\left\langle}
+\newcommand{\rrangle}{\right\rangle}
+\newcommand{\braces}[1]{\left(#1\right)}
+\newcommand{\lrangle}[1]{\left\langle #1 \right\rangle}
+
+\newcommand{\norm}[1]{\|#1\|}
+
+\newcommand{\threestars}{\begin{center}$ {\ast}\,{\ast}\,{\ast} $\end{center}}
+
+\newcommand{\myarrow}[1]{\xrightarrow{\ #1\ }}
+
+\DeclareMathOperator{\AC}{AC}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Rea}{Re}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\Exp}{Exp}
+
+\newcounter{z-counter}
+\newcounter{th-counter}
+\newcounter{df-counter}
+\newcounter{lm-counter}
+\newcounter{col-counter}
+\newcounter{notion-counter}
+
+\newcommand{\problem}{\par\noindent%
+	\textbf{Задача.} }
+\newcommand{\z}{\par\noindent\addtocounter{z-counter}{1}%
+	\textbf{Задача \arabic{z-counter}.} }
+\newcommand{\theor}{\par\noindent\addtocounter{th-counter}{1}%
+	\textbf{Теорема \arabic{th-counter}.} }
+\newcommand{\df}{\par\noindent%
+	\textbf{Опр. } }
+\newcommand{\notion}{\par\noindent%
+	\textbf{Обозначение.} }
+\newcommand{\lm}{\par\noindent\addtocounter{lm-counter}{1}%
+	\textbf{Лемма \arabic{lm-counter}.} }
+\newcommand{\col}{\par\noindent\addtocounter{col-counter}{1}%
+	\textbf{Следствие \arabic{col-counter}.} }
+\newcommand{\ex}{\par\noindent
+	\textbf{Пример.} }
+
+\newdimen\theoremskip
+\theoremskip=2pt
+\renewenvironment{proof}{\par\noindent$\square\quad$}{$\hfill\blacksquare$ \par\vskip\theoremskip} %hfill for align at the end of line
+
+\usepackage{tikz}
+
+\newcommand{\tikztriangleright}[1][red,fill=red]{\scalerel*{\tikz \draw[rounded corners=0.1pt,#1] (0,-2.5pt)--++(0,5pt)--++(-30:5pt)--cycle;}{\triangleright}}
+\newcommand{\tikztriangleleft}[1][red,fill=red]{\scalerel*{\tikz \draw[rounded corners=0.1pt,#1] (0,-2.5pt)--++(0,5pt)--++(-180+30:5pt)--cycle;}{\triangleleft}}
+
+\newenvironment{smallproof}{\color{blue!50!black}\par\noindent$\triangleright\quad$}{$\hfill\triangleleft$ \par\vskip\theoremskip}
+
+\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+\usetikzlibrary{positioning, arrows, shapes.geometric, decorations.pathreplacing}
+
+\newcommand{\titledsection}[1]{\section*{#1} \addcontentsline{toc}{section}{#1}\addcontentsline{toc}{section}{#1}}
+\newcommand{\titledsubsection}[1]{\subsection*{#1} \addcontentsline{toc}{subsection}{#1}\addcontentsline{toc}{subsection}{#1}}
+
+%-------------------------%
+
+\begin{document}
+\tableofcontents  % ← здесь появится оглавление
+
+\section*{Введение} \addcontentsline{toc}{section}{Введение}
+
+Опишем процедуру построения теории, на которой держится математическая статистика.
+
+В первую очередь в курсе теории вероятностей вводится понятие вероятностного пространства (probability space). Это понятие обобщает под одним термином три сущности, позволяющие в дальнейшем исследовать различные теоретические вопросы. 
+
+Итак, вероятностным пространством называют тройку
+$$(\Omega, \mathcal{F}, P),$$
+где $\Omega$ --- это пространство элементарных исходов (sample space, все возможные результаты эксперимента), $\mathcal{F}$ --- семейство подмножеств $\Omega$, которые называются событиями (event space), $P$ --- функция на событиях (probability function, вероятность).
+
+Задание вероятностного пространства означает задание модели физического эксперимента.
+
+С точки зрения теории меры, вероятность $P$ называют еще вероятностной мерой.
+
+В экспериментах мы хотим уметь рассчитывать вероятности событий, которые можно описать числами. Например, температуру в комнате, количество аварий, количество голов в матче и т.д. Поэтому естественно вводится понятие случайной величины (random variable).
+
+$$X: \Omega \rightarrow \R$$
+
+Случайная величина $X$, заданная на пространстве $(\Omega, \mathcal{F}, \mathcal{P}),$ задает автоматически свою вероятностную меру, но уже на подмножествах $B$ значений $X$ (по-умному можно так записать $B \subseteq \Ima X \subseteq \R$):
+
+$$P_X(B) := P(\omega : X(\omega) \in B) \equiv P (X \in B) \equiv P(X^{-1}(B))$$
+
+То есть каждая случайная величина, как говорят, индуцирует свое вероятностное пространство
+
+$$(\mathcal{X}, \mathcal{F}_X, P_X)$$
+
+Задание $P_X$ называется заданием распределения $X$ (probability distribution).
+
+В задаче математической статистики мы имеем результат некоторого эксперимента. В терминах вероятностного пространства у нас есть исход $\omega \in \Omega$, на котором посчитана некоторая числовая характеристика $X$. В нашей мат. модели $X$ --- это случайная величина (обычно, случайный вектор), про распределение которой мы точно не знаем, но имеем уверенность, что это распределение лежит в некотором семействе распределений $\mathcal{P}$.
+
+Если это семейство запараметризовано, т.е. каждому распределению семейства соответствует некоторый числовой параметр $\theta \in \Theta \subseteq \R^k$, то такое семейство называется параметризованным, и тогда задача узнать распределение сводится к задаче узнать параметр распределения.
+
+Таким образом, статистическая модель (статистическое пространство) выглядит следующим образом
+$$(\mathcal{X}, \mathcal{F}, \mathcal{P})$$
+где $\mathcal{X}$ --- множество всех возможных значений $X$, $\mathcal{F}$ --- семейство событий на $\mathcal{X}$, $\mathcal{P}$ --- семейство распределений $X$.
+
+\section*{Оценивание (Estimation)} \addcontentsline{toc}{section}{Оценивание (Estimation)}
+Выборкой (random sample) назвается набор из $n$ случайных величин $X_1, \ldots, X_n$. Реализацией выборки называется набор чисел $X_1(\omega), \ldots, X_n(\omega)$.
+
+Итак, задача статистики заключается в том, чтобы получить какую-либо информацию о распределении по данной выборке $X_1, \ldots, X_n$.
+
+Узнать что-либо о распределении это то же самое, что узнать что-то о его параметре, некую величину $h(\theta)$, где $\theta$ --- параметр распределения. То есть нам надо, чтобы была функция $\hat\theta(x_1, \ldots, x_n)$, такая что случайная величина $\hat\theta(X_1, \ldots, X_n)$ как-то характеризовала величину $h(\theta)$. Тогда $\hat\theta(X_1, \ldots, X_n)$ называют оценкой $h(\theta)$ (point estimator).
+
+\subsection*{Несмещенность (Unbiasedness)} \addcontentsline{toc}{subsection}{Несмещенность (Unbiasedness)}
+Встает вопрос, как определить, насколько оценка хороша. Естественно потребовать, чтобы оценка в среднем была равна оцениваемому параметру, то есть, чтобы
+$$E_\theta \thetah (X_1, \ldots, X_n) = h(\theta)$$
+где $E_\theta$ --- математическое ожидание по мере $P_\theta$ (иначе говоря, для распределения $P_\theta$).
+
+Если такое условие выполнено, то оценка $\thetah$ называется несмещенной для $h(\theta)$ (unbiased estimator).
+
+\subsection*{Квадратичное отклонение (MSE)} \addcontentsline{toc}{subsection}{Квадратичное отклонение (MSE)}
+Как для случайных величин важно понятие дисперсии (среднеквадратичного отклонения от среднего), так и для оценок важно понятие квадратичного смещения.
+
+Квадратичным смещением  (mean squared error или MSE) называется
+$$E_\theta (\thetah(X_1, \ldots, X_n) - h(\theta))^2$$
+
+Для несмещенных оценок квадратичное смещение равно $D_\theta \thetah (X_1, \ldots, X_n)$.
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+
+% Здесь пишем текст задачи
+\textbf{Задача 1.} Пусть $F_\theta(x) = 1-\theta^{x+1}$, $x \in \{0,1,\ldots\}$, $\Theta=(0,1)$.  Построить несмещенную оценку для $\theta$ а) от одного наблюдения, б) с квадратичным смещением, стремящимся к нулю.
+
+\begin{proof}
+Пункт (а). Нужно построить оценку $\hat\theta(X_1)$, чтобы $E_\theta\hat\theta(X_1) = \theta$.
+
+Посчитаем математическое ожидание такой оценки в общем виде, а затем попытаемся понять, какой должна быть сама оценка.
+
+\begin{align*}
+    E_\theta\hat\theta(X_1) = \sum_{k=0}^{\infty} \hat\theta(k) P_\theta(X_1 = k) = (*)
+\end{align*}
+
+Найдем $P_\theta(X_1 = k)$ из нашей функции распределения.
+
+Так как $F_\theta(x) = P_\theta(X \leq x)$, то 
+$$P_\theta(X_1 = k) = F_\theta(k) - F_\theta(k-1) = 1-\theta^{k+1}-1+\theta^k = \theta^k(1-\theta)$$
+
+Теперь вернемся к подсчету мат. ожидания:
+
+$$(*) = \sum_{k=0}^{\infty} \hat\theta(k) \theta^k(1-\theta) = (1-\theta)\sum_{k=0}^{\infty} \hat\theta(k) \theta^k$$
+(воспользовались суммой геом. прогрессии $\sum_{k=0}^{\infty} \theta = \frac{1}{1-\theta}$)
+
+Итак, чтобы оценка $\sum_{k=0}^{\infty} \hat\theta(k) \theta^k$ была несмещенной, нужно, чтобы
+\begin{align*}
+    (1-\theta)\sum_{k=0}^{\infty} \hat\theta(k) \theta^k = \theta \Leftrightarrow 
+    \sum_{k=0}^{\infty} \hat\theta(k) \theta^k = \frac{\theta}{1-\theta} = \theta + \theta^2 + \theta^3 + \ldots = \sum_{k=1}^{\infty} \theta^k
+\end{align*}
+
+Таким образом, мы хотим, чтобы $\hat\theta(0) = 0$, а $\hat\theta(k) = 1$ для всех $k = 1, 2, \ldots$. Отсюда 
+$$\hat\theta(X_1) = I_{X_1>0}.$$
+
+Пункт (б). Стандартный трюк улучшить оценку, оставив ее несмещенной, взять среднее от таких оценок. Рассмотрим
+$$\thetah(X_1, \ldots, X_n) = \frac{1}{n} \sum_{i=1}^n I_{X_i > 0}$$
+Такая оценка тоже несмещенная, а значит ее квадратичное смещение равно ее дисперсии $D_\theta \thetah$. Найдем ее.
+
+\begin{align*}
+    D_\theta \thetah(X_1, \ldots, X_n) = \frac{1}{n^2}D_\theta \braces{\sum I_{X_i>0}} = \frac{1}{n^2} \cdot n\cdot D_\theta I_{X_1>0} = \frac{1}{n} D_\theta I_{X_1>0}
+\end{align*}
+
+Вычислим
+$$D_\theta I_{X_1>0} = E_\theta I_{X_1>0}^2 - \braces{E_\theta I_{X_1>0}}^2 = E_\theta I_{X_1>0} - \braces{E_\theta I_{X_1>0}}^2 = \theta - \theta^2 = \theta(1-\theta) $$
+
+Таким образом, квадратичное смещение равно $\frac{\theta(1-\theta)}{n}$. Оно стремится к нулю при $n \rightarrow \infty$.
+    
+\end{proof}
+
+
+\textbf{Задача 2.} а) Найти несмещенную оценку для $DX_1$ вида $cS^2$, где $S^2 = \frac{1}{n}\sum_{i=1}^n(X_i - \bX)^2$, $X_i$ --- независимые одинаково распределенные (далее н.о.р.).
+
+б) Найти ее квадратичное смещение в случае $X_i \sim \mathcal N (0,\theta)$.
+
+\begin{proof}
+    Пункт а).
+    \begin{align*}
+        ES^2 &= \frac{1}{n}\sum_{i=1}^{n}E (X_i - \bX)^2 = \frac{1}{n}\sum (EX_i^2 - 2EX_i\bX + E\bX^2) = \\
+        & = \frac{1}{n}\sum EX_i^2 - \frac{2}{n}\sum EX_i\bX + \frac{1}{n} \sum E\bX^2 = \\
+        & = EX_1^2 - 2E\braces{\frac{1}{n}\sum X_i\bX} + \frac{1}{n}nE\bX^2 = \\
+        & = EX_1^2 - 2E\bX^2 + E\bX^2 = EX_1^2 - E\bX^2
+    \end{align*}
+    Теперь посчитаем $E\bX^2$:
+    \begin{align*}
+        E\bX^2 &= E\braces{\frac{X_1 + \ldots + X_n}{n}}^2 = \frac{1}{n^2} E(X_1^2 + \ldots + X_n^2 + 2\sum_{i<j}X_iX_j) = \\
+        & = \frac{1}{n^2}\braces{nEX_1^2 + 2C_n^2 (EX_1)^2} = \frac{1}{n}EX_1^2 + \frac{n-1}{n}(EX_1)^2
+    \end{align*}
+    Подставляя в предыдущую формулу, получаем, что
+    $$ES^2 = EX_1^2 - \frac{EX_1^2}{n} - \frac{n-1}{n}(EX_1)^2 = \frac{n-1}{n}(EX_1^2 - (EX_1)^2) = \frac{n-1}{n}EX_1$$
+
+    Таким образом, оценка $S^2$ --- смещенная, но оценка $S_0 = \frac{n}{n-1}S^2$ будет несмещенной.
+
+    Теперь пункт б). Теперь мы знаем, что $X_i \sim \mathcal{N}(0, \theta)$, то есть $EX_i = 0$, $DX_i = \theta$.
+
+    Так как наша оценка несмещенная, то квадратичным смещением будет просто дисперсия $DS_0$.
+    $$DS_0 = ES_0^4 - (ES_0^2)^2 = ES_0^4 - (EX_1)^2 = ES_0^4 = E\braces{\frac{n}{n-1}S^2}^2 = \frac{n^2}{(n-1)^2}ES^4$$
+
+    Для поиска $ES^4$ воспользуемся тем, что $S^2 = \overline{X^2} - \bX^2$. тогда
+    \begin{align*}
+        ES^4 &= E\frac{1}{n^2}(\overline{X^2}^2 - \bX^2)^2 = \frac{1}{n^2}E(\overline{X^2}^2 - 2 \overline{X^2} + \bX^4) = \\
+        & = \frac{1}{n^2}\braces{E\braces{\overline{X^2}^2} - 2E\overline{X^2} E \bX^2 + E \bX^4} = (*)
+    \end{align*}
+
+    Теперь нужно отдельно посчитать мат. ожидания в скобках.
+
+    $$E\overline{X^2} = E \frac{X_1^2 + \ldots + X_n^2}{n} = EX_1^2 = DX_1 + (EX_1)^2 = DX_1 = \theta$$
+
+    $$E\bX^2 = \frac{EX_1^2}{n} + \frac{n-1}{n} (EX_1)^2 = \frac{EX_1^2}{n} = \frac{DX_1}{n} = \frac{\theta}{n}$$
+
+    \begin{align*}
+        E\braces{\overline{X^2}^2} &= E\braces{\frac{X_1^2 + \ldots + X_n^2}{n}}^2 = \frac{1}{n^2} E\braces{X_1^4 + \ldots + X_n^4 + 2\sum_{i<j} X_i^2X_j^2)} = \\
+        & = \frac{1}{n^2}\braces{nEX_1^4 + 2C_n^2 \braces{EX_1^2}^2 } = (**)
+    \end{align*}
+
+    Мы знаем, что $EX_1^2 = DX_1 = \theta$. Осталось посчитать $EX_1^4$.
+
+    \begin{align*}
+        EX_1^4 &= \frac{1}{\sqrt{2\pi \theta}} \int_{-\infty}^{+\infty} x^4 e^{-\frac{x^2}{2\theta}} dx = \frac{\sqrt 2}{\sqrt{\pi\theta}} \int_0^{+\infty}x^4 e^{-\frac{x^2}{2\theta}} dx = \\
+        &= \theta\sqrt{\frac{2}{\pi\theta}} \int_0^{+\infty} x^3 e^{-\frac{x^2}{2\theta}} d\braces{\frac{x^2}{2\theta}} = \sqrt{\frac{2\theta}{\pi}}\int_0^{+\infty} (2\theta u)^{3/2} e^{-u} du = \\
+        & = \frac{4\theta^2}{\sqrt \pi} \int_0^{+\infty} u^{3/2} e^{-u} du = \frac{4\theta^2}{\sqrt \pi} \Gamma\braces{\frac{5}{2}} = \frac{4\theta^2}{\sqrt \pi} \cdot\frac{3}{2} \Gamma\braces{\frac{3}{2}} = \\
+        & = \frac{4\theta^2}{\sqrt \pi} \cdot\frac{3}{2} \cdot\frac{1}{2} \Gamma\braces{\frac{1}{2}} = \frac{4\theta^2}{\sqrt \pi} \cdot\frac{3}{2} \cdot\frac{1}{2} \sqrt\pi = 3\theta^2
+    \end{align*}
+
+    Таким образом,
+    $$(**) = \frac{1}{n^2} \braces{3\theta^2n + n(n-1)\theta^2} = \frac{n+2}{n}\theta^2$$
+
+    Еще нужно вычислить
+    $$E\bX^4 = \frac{1}{n^4}nEX_1^4 = \frac{3\theta^2}{n^3}$$
+
+    Тогда
+    $$(*) = \frac{1}{n^2}\braces{\frac{n+2}{n}\theta^2 - 2\cdot \theta \cdot \frac{\theta}{n} + \frac{3\theta^2}{n^3}} = \frac{n^3+3}{n^5}\theta^2$$
+
+    Окончательно,
+    $$DS_0 = \frac{n^2}{(n-1)^2} \frac{n^3+3}{n^5}\theta^2 = \frac{n^3+3}{(n-1)^2n^3}\theta^2$$
+\end{proof}
+
+\textbf{Задача 3.} Доказать, что по $X_1, \ldots, X_n \sim Bern(\theta)$ нельзя построить несмещенную оценку для $e^\theta$, $\Theta = (0,1)$.
+
+\begin{proof}
+    Хотим построить оценку $\thetah(X_1, \ldots, X_n)$, такую, чтобы $E_\theta \thetah(X_1, \ldots, X_n) = e^\theta$.
+
+    \begin{align*}
+        E_\theta \thetah(X_1, \ldots, X_n) &= \sum_{(x_1, \ldots, x_n)\in \{0,1\}^n} \thetah(x_1, \ldots, x_n) P(X_1 = x_1, \ldots, X_n = x_n) = \\
+        &= \sum_{(x_1, \ldots, x_n)\in \{0,1\}^n} \thetah(x_1, \ldots, x_n) P(X_1 = x_1)\ldots P(X_n = x_n) = \\
+        & = \sum_{k=0}^n \thetah_k(x_1,\ldots,x_n)\theta^k(1-\theta)^{n-k} = \sum_{k=0}^n c_k(x_1,\ldots,x_n)\theta^k
+    \end{align*}
+
+    Мы получили разложение в ряд Тейлора, который в нашем случае всегда будет обычной суммой из конечного количества слагаемых. В то время, как ряд Тейлора для экспоненты содержит бесконечное количество ненулевых коэффициентов:
+    $$e^\theta = 1 + \theta + \frac{\theta^2}{2!} + \frac{\theta^3}{3!} + \ldots$$
+
+    Так как ряд Тейлора определяется единственным образом, то совпадения тут быть не может ни при каком $\thetah$.
+\end{proof}
+
+\textbf{Задача 4.} Пусть $X_i \sim R[0,\theta]$, $\Theta = (0, +\infty)$. Рассмотрим оценку параметра $\theta$ вида $c \max_{i \le n} X_i$. Найти $c$, при котором эта оценка будет несмещенной. Найти квадратичное отклонение.
+
+\begin{proof}
+    Обозначим $\thetah = c \max_{i \le n} X_i$. Тогда $E\thetah = cE(\max X_i)$. Чтобы вычислить это мат. ожидание, нам нужно найти распределение $\max X_i$.
+
+    Рассмотрим функцию распределения
+    \begin{align*}
+        F_{\max X_i}(x) &= P(\max X_i \le x) = P(X_1 \le x, \ldots, X_n \le x) =\\
+        & = P(X_1 \le x) \cdots P(X_n \le x) = (P(X_1 \le x))^n = \\
+        & = \braces{\frac{1}{\theta} \int_0^x I_{[0, \theta]} (t) dt}^n
+    \end{align*}
+    Отсюда
+    \[
+        F_{\max X_i}(x) =
+        \begin{cases}
+            0, & x\le 0,\\
+            \braces{\frac{x}{\theta}}^n, & 0 < x < \theta\\
+            1, & x \ge \theta
+        \end{cases}
+    \]
+    Значит, можем найти плотность
+    $$f_{\max X_i} (x) = \frac{n}{\theta^n} x^{n-1} I_{[0,\theta]}(x)$$
+    А тогда
+    \begin{align*}
+        E\max X_i & = \int_\R x \cdot \frac{n}{\theta^n} x^{n-1} I_{[0,\theta]}(x) dx = \frac{n}{\theta^n} \int_0^\theta x^n dx =\\
+        & = \frac{n}{\theta^n} \frac{x^{n+1}}{n+1} \bigg|_0^\theta = \frac{n}{n+1} \theta.
+    \end{align*}
+    Отсюда получаем, что оценка $\thetah_0 = \frac{n+1}{n}\max_{i \le n} X_i$ будет несмещенной.
+
+    Квадратиченое смещение в случае несмещенной оценки будет просто равно дисперсии этой оценки
+    $$D\thetah_0 = E\thetah_0^2 - (E\thetah_0)^2 = E\thetah_0^2 - \theta^2.$$
+    Найдем
+    $$E\thetah_0^2 = \braces{\frac{n+1}{n}}^2 E(\max X_i)^2$$
+    Далее,
+    \begin{align*}
+        E(\max X_i)^2 & = \int_\R x^2 f_{\max X_i} (x) dx = \int_\R x^2 \frac{n}{\theta^n} x^{n-1} I_{[0, \theta]}(x) dx = \\
+        & = \frac{n}{\theta^n} \int_0^\theta x^{n+1} dx = \frac{n}{\theta^n} \frac{\theta^{n+2}}{n+2} = \frac{n}{n+2} \theta^2.
+    \end{align*}
+    Таким образом,
+    $$E \thetah_0^2 = \braces{\frac{n+1}{n}}^2 \frac{n}{n+2} \theta^2 = \frac{(n+1)^2}{n(n+2)} \theta^2$$
+    и, значит,
+    $$D\thetah_0 = \frac{(n+1)^2}{n(n+2)} \theta^2 - \theta^2 = \braces{\frac{(n+1)^2}{n(n+2)} - 1}\theta^2 = \frac{\theta^2}{n(n+2)}.$$
+\end{proof}
+
+\newpage
+\section*{Примеры распределений} \addcontentsline{toc}{section}{Примеры распределений}
+\subsection*{Распределение Бернулли, $Bern(p)$} \addcontentsline{toc}{subsection}{Распределение Бернулли, $Bern(p)$}
+$X \sim Bern(p)$, если $X$ принимает всего два значения (успех и неудача):
+\[
+X =
+    \begin{cases}
+        1, & p\\
+        0, &1-p
+    \end{cases}
+\]
+
+\subsection*{Геометрическое распределение, $Geom(p)$} \addcontentsline{toc}{subsection}{Геометрическое распределение, $Geom(p)$}
+Случайная величина $X \sim Geom(p)$, $p \in (0,1)$ означает количество неуспехов до первого успеха при последовательном проведении эксперимента с бинарным исходом.
+
+Распределение $X$ таково:
+$$P(X=k) = p (1-p)^k, \quad k \ge 0.$$
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            ybar, % Гистограмма
+            bar width=8pt, % Ширина столбцов
+            ymin=0, % Минимальное значение оси Y
+            ymax=0.4, % Максимальное значение оси Y
+            xmin=-1, % Минимальное значение оси X
+            xmax=15, % Максимальное значение оси X
+            xtick=data, % Отображение отметок по X
+            xlabel={$k$}, % Подпись к оси X
+            ylabel={$P(X = k)$}, % Подпись к оси Y
+            title={$X \sim Geom(p)$, $p=0.3$}, % Заголовок графика
+            grid=both, % Включение сетки
+            width=12cm, % Ширина графика
+            height=8cm, % Высота графика
+            every axis plot/.append style={fill=blue, opacity=0.7}, % Цвет и прозрачность
+        ]
+        \addplot[
+            ybar,
+            fill=blue,
+        ] table[row sep=\\] {
+            k   P \\
+            0   0.3 \\
+            1   0.21 \\
+            2   0.147 \\
+            3   0.1029 \\
+            4   0.07203 \\
+            5   0.050421 \\
+            6   0.0352947 \\
+            7   0.0247063 \\
+            8   0.0172944 \\
+            9   0.0121061 \\
+            10  0.0084743 \\
+            11  0.005932 \\
+            12  0.0041524 \\
+            13  0.0029067 \\
+            14  0.0020347 \\
+        };
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection*{Биномиальное распределение, $Binom(n,p)$} \addcontentsline{toc}{subsection}{Биномиальное распределение, $Binom(n,p)$}
+Случайная величина $X \sim Binom(n,p)$ означает количество успехов при проведении $n$ экспериментов с бинарным исходом, т.е. $X = \sum_{k=1}^n X_i$, где $X_i \sim Bern(p)$.
+
+Распределение $X$ имеет следующее:
+$$P(X=k) = C_n^k p^k (1-p)^{n-k}, \quad 0 \le k \le n.$$
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            ybar, % Гистограмма
+            bar width=8pt, % Ширина столбцов
+            ymin=0, % Минимальное значение оси Y
+            ymax=0.2, % Максимальное значение оси Y
+            xmin=0, % Минимальное значение оси X
+            xmax=20, % Максимальное значение оси X
+            xtick=data, % Отображение отметок по X
+            xlabel={$k$}, % Подпись к оси X
+            ylabel={$P(X = k)$}, % Подпись к оси Y
+            title={$X \sim Binom(n, p), \quad n=20, p=0.55$}, % Заголовок графика
+            grid=both, % Включение сетки
+            width=12cm, % Ширина графика
+            height=8cm, % Высота графика
+            every axis plot/.append style={fill=orange, opacity=0.7}, % Цвет и прозрачность
+        ]
+        \addplot[
+            ybar,
+            fill=orange,
+        ] table[row sep=\\] {
+            k   P \\
+            0   0.0000 \\
+            1   0.0000 \\
+            2   0.0001 \\
+            3   0.0005 \\
+            4   0.0021 \\
+            5   0.0069 \\
+            6   0.0185 \\
+            7   0.0414 \\
+            8   0.0804 \\
+            9   0.1306 \\
+            10  0.1767 \\
+            11  0.1964 \\
+            12  0.1797 \\
+            13  0.1321 \\
+            14  0.0776 \\
+            15  0.0370 \\
+            16  0.0135 \\
+            17  0.0039 \\
+            18  0.0008 \\
+            19  0.0001 \\
+            20  0.0000 \\
+        };
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection*{Распределение Пуассона, $Poiss(\la)$} \addcontentsline{toc}{subsection}{Распределение Пуассона, $Poiss(\la)$}
+Случайная величина $X \sim Poiss(\la)$ означает количество событий, которые произойдут за некоторый промежуток времени $T$, про который известно, что $\lambda$ --- среднее число событий за время $T$.
+
+$$P(X=k) = e^{-\la} \frac{\la^k}{k!}, \quad k \ge 0.$$
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            ybar, % Гистограмма
+            bar width=8pt, % Ширина столбцов
+            ymin=0, % Минимальное значение оси Y
+            ymax=0.2, % Максимальное значение оси Y
+            xmin=0, % Минимальное значение оси X
+            xmax=20, % Максимальное значение оси X
+            xtick=data, % Отображение отметок по X
+            xlabel={$k$}, % Подпись к оси X
+            ylabel={$P(X = k)$}, % Подпись к оси Y
+            title={$X \sim Poiss(\la), \quad \la = 10$}, % Заголовок графика
+            grid=both, % Включение сетки
+            width=12cm, % Ширина графика
+            height=8cm, % Высота графика
+            every axis plot/.append style={fill=orange, opacity=0.7}, % Цвет и прозрачность
+        ]
+        \addplot[
+            ybar,
+            fill=green,
+        ] table[row sep=\\] {
+            k   P \\
+            0   0.0000454 \\
+            1   0.000454 \\
+            2   0.00227 \\
+            3   0.00757 \\
+            4   0.01893 \\
+            5   0.03786 \\
+            6   0.06310 \\
+            7   0.09015 \\
+            8   0.11269 \\
+            9   0.12575 \\
+            10  0.12575 \\
+            11  0.11432 \\
+            12  0.09527 \\
+            13  0.07329 \\
+            14  0.05235 \\
+            15  0.03490 \\
+            16  0.02181 \\
+            17  0.01283 \\
+            18  0.00713 \\
+            19  0.00376 \\
+            20  0.00188 \\
+        };
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection*{Равномерное распределение, $R[a,b]$} \addcontentsline{toc}{subsection}{Равномерное распределение, $R[a,b]$}
+$X \sim R[a.b]$, если $f_X(x) = I_{[a,b]}(x)$
+
+\subsection*{Нормальное распределение, $\mathcal{N}$} \addcontentsline{toc}{subsection}{Нормальное распределение, $\mathcal{N}(a,\sigma^2)$}
+$X \sim \mathcal{N}(a,\sigma^2)$, если $X$ имеет плотность распределения
+$$f_X(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{-\frac{(x-a)^2}{2\sigma^2}}$$
+
+\subsection*{Показательное распределение, $Exp(\la)$} \addcontentsline{toc}{subsection}{Показательное распределение, $Exp(\la)$}
+$X \sim Exp(\la)$, $\la >0$, если $X$ имеет плотность распределения
+$$f_X(x) = \la e^{-\la x}, \quad x \ge 0$$
+
+Полезный источник: \href{https://education.yandex.ru/handbook/ml/article/veroyatnostnye-raspredeleniya}{учебник Яндекса по ML}.
+
+\section*{Математическое ожидание (Expectation)} \addcontentsline{toc}{section}{Математическое ожидание (Expectation)}
+
+Если у нас случайная великина $X$ все свои возможные значения $\{x_1, x_2, \ldots, x_n\}$ принимает с одинаковой вероятностью, то тогда ее среднее значение $EX$ рассчитывается просто, как среднее арифметическое:
+$$EX = \frac{x_1 + \ldots + x_n}{n}$$
+
+Но если вероятность распределена по значениям неравномерно, то тогда среднее значение случайной величины может быть отличным от среднего арифметического.
+
+В этом случае, обозначив $p_k = P(X = x_k)$, среднее логично рассчитывать как
+$$EX = x_1 p_1 + \ldots + x_n p_n$$
+С точки зрения физики, мы нашли центр масс ($p_i$ --- масса груза, размещенного в точке с координатой $x_i$).
+
+В случае, если $X$ принимает счетное множество значений, мат. ожидание запишется в виде ряда
+$$EX = \sum_{k=1}^\infty x_kP(X=x_k)$$
+
+Если же $X$ --- непрерывная случайная величина, то возникает понятие плотности распределения $f_X(x)$, с помощью которой мат. ожидание вычисляется с помощью интеграла Римана по формуле
+$$EX = \int_\R x f_X(x)dx$$
+
+Для того, чтобы подчеркнуть, что мат. ожидание берется именно по распределению $P$, используют обозначение $E_P X$.
+
+\subsection*{Примеры вычисления $EX$} \addcontentsline{toc}{subsection}{Примеры вычисления $EX$}
+
+\textbf{Пример 1.} Распределение Бернулли: $X \sim Bern(p)$ --- бросание монетки. $X$ принимает два значения: $1$ с вероятностью $p$ (успех) и $0$ с вероятностью $1-p$ (неуспех).
+
+\begin{proof}
+    $$EX = 0 \cdot (1-p) + 1 \cdot p = p$$
+\end{proof}
+
+\textbf{Пример 2.} Биномиальное распределение: $X \sim Binom(n, p)$ --- число орлов при бросании монетки $n$ раз.
+\begin{proof}
+    \begin{align*}
+        EX &= \sum_{k=0}^n k\cdot P(X=k) = \sum_{k=0}^n k\cdot C_n^k p^k (1-p)^k \\
+        &= \sum_{k=1}^n \frac{n!}{(k-1)!(n-k)!} p^k (1-p)^{n-k} = \\
+        &= np \sum_{k=1}^n \frac{(n-1)!}{(k-1)!(n-k)!} p^{k-1} (1-p)^{(n-1)-(k-1)} = np
+    \end{align*}
+    
+    Но можно и проще, если заметить, что $X = X_1 + \ldots + X_n$, где где $X_k \sim Bern(p)$:
+    $$EX = EX_1 + \ldots + EX_n = np.$$
+\end{proof}
+
+\textbf{Пример 3.} Геометрическое распределение: $X \sim Geom(p)$ --- число бросков до первого орла (успеха).
+\begin{proof}
+    Сначала отметим, что $P(X = k) = p(1-p)^{k}$. Тогда
+    $$EX = \sum_{k=0}^\infty k p(1-p)^k.$$
+    Чтобы такое вычислить, нужно использовать трюк. Рассмотрим функцию
+    $$\ph_X(s) = \sum_{k=0}^\infty s^k p(1-p)^k$$
+    (эта функция называется производящей).
+    
+    Тогда $\ph_X'(1) = EX$.
+
+    Считаем:
+    \begin{align*}
+        &\ph_X(s) = \sum_{k=0}^\infty s^k p(1-p)^k = p \sum_{k=0}^\infty (s(1-p))^k = p\frac{1}{1-s(1-p)}\\
+        &\ph_X'(s) = \frac{p(1-p)}{(1-s(1-p))^2}\\
+        &\ph_X'(1) = \frac{1-p}{p}
+    \end{align*}
+\end{proof}
+
+\textbf{Пример 4.} Пусть есть $N$ ячеек, в которые бросают $n$ шаров. Шары могут попадать в одни и те же ячейки. $X$ --- число занятых ячеек.
+
+\begin{tikzpicture}
+    % Параметры
+    \def \N {7} % Количество ячеек
+    \def \size {0.5} % Размер стороны квадрата
+    
+    % Рисуем ячейки
+    \foreach \i in {1,...,\N} {
+        \draw[thick] (\i*\size, 0) rectangle ({\i*\size + \size}, \size);
+    }
+    
+    % Добавляем подпись к каждой ячейке
+    %\foreach \i in {1,...,\N} {
+    %    \node at ({\i*\size + 0.5*\size}, {0.5*\size}) {\(\i\)};
+    %}
+\end{tikzpicture}
+
+\begin{proof}
+    Представим $X = X_1 + \ldots + X_N$, где $X_k$ --- занята ли $k$-я ячейка. Тогда
+    $$EX = \sum EX_k = NEX_1$$
+    так как все равно какую ячейку рассматриваем.
+
+    Далее,
+    $$EX_1 = 0 \cdot P(X_1 = 0) + 1 \cdot P(X_1 = 1) = P(X_1 = 1) = 1 - P(X_1 = 0) = 1-\braces{\frac{N-1}{N}}^n$$
+
+    Таким образом,
+    $$EX = N\braces{1-\braces{\frac{N-1}{N}}^n}$$
+\end{proof}
+
+\textbf{Пример 5. (Рулетка)} В комнате $n$ человек, у каждого револьвер, по звонку каждый стреляет в случайного человека (кроме себя). Пусть  $X_n$ --- число выживших. Найти $EX_n$.
+
+\begin{proof}
+    Введем $Y_i$:
+    \[
+    Y_i =
+    \begin{cases} 
+        1, & \text{если i-ый выжил}, \\
+        0, & \text{если i-ый не выжил}
+    \end{cases}
+    \]
+    Тогда $X_n = \sum_{k=1}^n Y_k$ и $EX_n = \sum_{k=1}^n EY_n$.
+
+    $$EY_k = P(\text{k-ый выжил})$$
+
+    Чтобы посчитать вероятность, нужно задать вероятностное пространство. Зададим
+    $$\Omega = \{(x_1,\ldots, x_n) : x_i \neq i\}$$
+
+    Тогда 
+    \begin{align*}
+        EY_k &= P(\text{k-ый выжил}) = \frac{(n-2)\cdots(n-2)(n-1)(n-2)\cdots (n-2)}{(n-1)^n} = \\
+        &= \frac{(n-2)^{n-1}(n-1)}{(n-1)^n} = \braces{\frac{n-2}{n-1}}^{n-1}
+    \end{align*}
+
+    Значит,
+    $$EX_n = n\cdot \braces{\frac{n-2}{n-1}}^{n-1}$$
+
+    Отсюда можно заметить, что доля выживших
+    $$\frac{EX_n}{n} = \braces{\frac{n-2}{n-1}}^{n-1} = \braces{1-\frac{1}{n-1}}^{n-1} \rightarrow \frac{1}{e}$$
+\end{proof}
+
+\section*{Разные виды сходимости случайных величин} \addcontentsline{toc}{section}{Разные виды сходимости случайных величин}
+
+Допустим, мы имеем выборку $X_1, \ldots, X_n$ и пытаемся построить разные оценки параметра распределения. Интуитивно понятно, что чем больше выборка, тем лучше можно оценить распредление. В идеале, мы бы делали бесконечно много экспериментов и тогда бы получали наилучшие оценки, но в жизни такое невозможно. Поэтому возникает логичный вопрос: какой размер выборки для нас достаточен в том смысле, что конечная выборка заданного размера даст практически столько же информации, сколько и бесконечная выборка.
+
+Здесь появляется потребность в изучении различных предельных свойств. Видов сходимостей в теории вероятностей аж четыре, и все они важны, а текста и новых значков будет много. Но если разобраться идейно, то ничего сложного в самих определениях нет. В любом случае, без этого никуда, так что выхода нет.
+
+\subsection*{Сходимость почти наверное} \addcontentsline{toc}{subsection}{Сходимость почти наверное}
+Мы неплохо знаем из обычного курса математического анализа про поточечную сходимость, когда последовательность функций $f_n(x)$ сходится к функции $f(x)$ в каждой точке $x$. А что, если в каких-то точках сходимости нет, но таких точек "мало"? Вот такая сходимость называется сходимостью почти наверное.
+
+Более строго, пусть $\{X_n\}_{n=1}^\infty$ и $X$ --- случайные величины на пространстве $(\Omega, \mathcal{F}, P)$. Говорят, что $X_n \rightarrow X$ почти наверное, если вероятность того, что $X_n(w) \rightarrow X(w)$ равна $1$:
+$$P\braces{\omega : X_n(w) \rightarrow X(\omega)} = 1.$$
+
+\ex Пусть $\Omega = [0,1]$, $X_n(\omega) = \frac{1}{n}$. Тогда $X_n \rightarrow 0$ п.н.
+
+\subsection*{Сходимость по вероятности} \addcontentsline{toc}{subsection}{Сходимость по вероятности}
+Если сходимость почти наверное ослабляет поточечную сходимость, используя вероятность, то сходимость по вероятности ослабляет равномерную сходимость.
+
+Напомню, что равномерная сходимость функций требует от последовательности функций "равномерного" приближения к предельной функции сразу по всей области определения.
+
+Итак, снова пусть $\{X_n\}_{n=1}^\infty$ и $X$ --- случайные величины на пространстве $(\Omega, \mathcal{F}, P)$. Говорят, что $X_n \myarrow{P} X$, если
+$$\forall \ep>0 \quad P(w: |X_n(w)-X(w)| > \ep) \rightarrow 0$$
+
+В чем разница между сходимостью по вероятности и сходимостью почти наверное? Чтобы ответить на этот вопрос, перепишем определение сходимость почти наверное в эквивалентной форме (без доказательства):
+$$X_n \myarrow{\text{п.н.}} X \Leftrightarrow \forall \ep > 0 \quad P\braces{\bigcup_{k=n}^\infty \{|X_n - X| > \ep\}} \rightarrow 0.$$
+Отсюда сразу видно четкое различие и то, что из сходимости почти наверное следует сходимость по вероятности. Но хочется иметь пример сходимости по вероятности, при которой не выполняется сходимость почти наверное.
+
+Ясно, что проблема должна заключаться в том, что вероятность отклонения с ростом $n$ стремится к нулю, но в будущем (суммарно) мы не можем гарантировать (с вероятностью 1), что отклонение будет малым.
+
+Классический пример --- бегающая ступенька Рисса
+$$Y_{n,k} = I_{\left[ \frac{k}{2^n}, \frac{k+1}{2^n}\right]}$$
+Эта последовательность сходимтся к нулю по вероятности, но не сходится к нулю ни в одной точке.
+
+С практической точки зрения эти две сходимости не так уж различимы, потому что мы не умеем генерировать бесконечные последовательности. А весь смысл различия именно в поведении на бесконечности, которое проверить в эксперименте невозможно.
+
+\subsection*{Сходимость в среднем} \addcontentsline{toc}{subsection}{Сходимость в среднем}
+
+Название говорит само за себя. Эта сходимость говорит о сходимости $E|X_n-X|$ к нулю.
+
+Еще говорят о сходимостях в среднем порядка $p \geq 1$, когда $E|X_n-X|^p \rightarrow 0$.
+
+С точки зрения теории функций эта сходимость в пространстве Лебега функций $L_p$, поэтому обозначение для такой сходимости в контексте случайных величин таково: $X_n \myarrow{L_p} X$.
+
+\ex $\Omega = [0,1]$, $X_n(\omega) = n^{\frac{1}{p}} I_{[0, n^{-1/p}]}$. Тогда $X_n \myarrow{\text{п.н.}} 0$, но $X_n \not\xrightarrow{L_p} 0$.
+
+\subsection*{Сходимость по распределению} \addcontentsline{toc}{subsection}{Сходимость по распределению}
+Говорят, что $X_n \myarrow{d} X$ (по распределению), если сходятся функции распределения $F_{X_n}(x) \rightarrow F_X(x)$.
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+\textbf{Задача 1.} Доказать, что если ряд из математических ожиданий и ряд из дисперсий независимых случайных величин $X_n$ сходится, то ряд из $X_n$ сходится а) в $L_2$ б) в $L_1$.
+
+\begin{proof}
+    Воспользуемся критерием Коши сходимости в $L_2$. 
+    
+    Пусть задано произвольно $\ep > 0$. Рассмотрим
+
+    \begin{align*}
+        E\braces{\sum_{i=1}^n X_i - \sum_{i=1}^m X_i}^2 &= E\braces{\sum_{i=m+1}^n X_i}^2 = D\braces{\sum_{i=m+1}^n X_i} + \braces{E\sum_{i=m+1}^n X_i}^2
+    \end{align*}
+
+    Из-за сходимости ряда из мат. ожиданий и дисперсий, оба слагаемых при больших $m.n > N$ будут сколько угодно малы, поэтому и $E\braces{\sum_{i=1}^n X_i - \sum_{i=1}^m X_i}^2 < \ep$. То есть по критерию Коши, имеем сходимость ряда в $L_2$.
+
+    Сходимость в $L_1$ следует из сходимости в $L_2$ (общий факт).
+\end{proof}
+
+\textbf{Задача 2.} Пусть $X_n \myarrow{d} X$, $Y_n \myarrow{d} Y$. Верно ли, что $aX_n + Y_n \myarrow{d} aX + Y$, если а) $Y = const$, б) $Y \neq const$?
+
+\begin{proof}
+    Пункт а) Верно, так как, если $Y = c = const$, то для точки непрерывности $x$ сл.в. $aX+c$ и $\forall \delta > 0$
+    \begin{align*}
+        F_{aX_n+Y_n}(x) &= P(aX_n + Y_n \le x) = P(aX_n + Y_n \le x | |Y_n-c| \le \delta) \underbrace{P(|Y_n-c| \le \delta)}_{\rightarrow 1, \text{ при } n\rightarrow \infty} + \\
+        & + P(aX_n + Y_n \le x | |Y_n-c| > \delta) \underbrace{P(|Y_n-c| > \delta)}_{\rightarrow 0, \text{ при } n\rightarrow \infty}
+    \end{align*}
+    Нужно оценить
+    \begin{align*}
+        P(aX_n + Y_n &\le x | |Y_n-c| \le \delta) \le P(aX_n + c \le x + \delta) =\\
+        &= F_{X_n} \braces{\frac{x-c+\delta}{a}} \rightarrow F_X \braces{\frac{x-c+\delta}{a}} = F_{aX+c}(x+\delta)
+    \end{align*}
+
+    Аналогично получается, что
+    $$P(aX_n + Y_n \le x | |Y_n-c|) \ge F_{X_n} \braces{\frac{x-c-\delta}{a}} \rightarrow F_X \braces{\frac{x-c-\delta}{a}} = F_{aX+c}(x-\delta)$$
+
+    Так как $x$ --- точка непрерывности, а $\delta$ --- любое, то
+    $$F_{aX_n+Y_n}(x) \rightarrow F_{aX+c}(x), \quad n\rightarrow \infty.$$
+
+    Пункт б). Неверно. Возьмем $X_n \sim \mathcal{N}(0,1)$ и $X \sim \mathcal{N}(0,1)$. Очевидно, что по распределению последовательность $X_n$ сходится к $X$. Но при этом она сходится по распределению и к $-X$. Но $X_n+X_n = 2X_n$ не сходится к $X + (-X) = 0$. 
+\end{proof}
+
+\newpage
+
+\section*{ЗБЧ и ЦПТ} \addcontentsline{toc}{section}{ЗБЧ и ЦПТ}
+
+\subsection*{Закон Больших Чисел (Law of Large Numbers)} \addcontentsline{toc}{subsection}{Закон Больших Чисел (Law of Large Numbers)}
+Мы уже знакомы с понятием математического ожидания, которое было введено, по сути, исходя чисто из интуитивных представлений о том, как должно быть. Интуиция, напомним, следующая.
+
+Пусть случайная величина $X$ принимает $n$ значений $\{x_1, \ldots, x_n\}$ с вероятностями $p_1, \ldots, p_n$. Чему в среднем равняется $X$? Хочется взять большую выборку из $N$ экспериментов, сложить в сумму выпавшие значения и поделить на $N$ (то бишь посчитать среднее арифметическое):
+
+$$\frac{X_1+\ldots+X_N}{N} \approx \frac{x_1\cdot Np_1 + \ldots+ x_n\cdot Np_n}{N} = x_1p_1+\ldots+x_np_n$$
+
+Оказывается, что эта интуиция подкрепляется математическим обоснованием.
+
+Якоб Бернулли (1655-1705) в своем труде Ars Conjectandi (Искусство Предположений), опубликованном в 1913 году его племянником Николаем Бернулли, доказал ''Теорему Бернулли'', ставшую началом истории развития теорем, объединенных названием ''Закон больших чисел''. Бернулли исследовал вопрос о том, насколько наше формальное математическое представление о вероятности соответствует действительности. А именно, что вероятность события означает частоту этого события при очень большом повторении одного эксперимента.
+
+Название ''Закон больших чисел'' принадлежит Пуассону, который сформулировал ЗБЧ в более общем виде, предполагая, что вероятность события может быть разной для разных испытаний, но не доказал его.
+
+Доказательство теореме Пуассона (в более общей формулировке) дал уже Чебышев в 1866 году, которое оказалось поразительно простым, использующим метод моментов (математических ожиданий).
+
+\textit{Использована речь А.А. Маркова на 200-летний юбилей теоремы Бернулли (из книги \textbf{Бернулли --- О законе больших чисел, 1986)}}.
+
+Далее приведем доказательство ЗБЧ в простой его форме. Это доказательство строится на неравенствах Маркова и Чебышева, но и сами по себе эти неравенства полезно рассмотреть подробно, чтобы понимать логику рассуждений, приближающих к главному утверждению.
+
+\textbf{Неравенство Маркова.} Пусть $X \ge 0$, $EX < \infty$. Тогда
+$$\forall x > 0 \quad P(X \ge x) \le \frac{EX}{x}.$$
+
+\begin{proof}
+    Распишем $EX$, учитывая, что $X = XI_{X \ge x} + XI_{X < x}$:
+    \begin{align*}
+        EX &= E(X I_{X \ge x}) + E(XI_{X < x}) \ge E(X I_{X \ge x}) \ge xEI_{X \ge x} = \\
+        & = x P(X \ge x).
+    \end{align*}
+    Отсюда получаем $P(X \ge x) \le \frac{EX}{x}.$
+\end{proof}
+
+\ex Пусть студенты никогда не приходят вовремя, они всегда опаздывают. В среднем они опаздывают на 3
+ минуты. Какова вероятность того, что студент опоздает на 15
+ минут и более? Дать грубую оценку сверху. \href{https://neerc.ifmo.ru/wiki/index.php?title=%D0%9D%D0%B5%D1%80%D0%B0%D0%B2%D0%B5%D0%BD%D1%81%D1%82%D0%B2%D0%BE_%D0%9C%D0%B0%D1%80%D0%BA%D0%BE%D0%B2%D0%B0#.D0.9D.D0.B5.D1.80.D0.B0.D0.B2.D0.B5.D0.BD.D1.81.D1.82.D0.B2.D0.BE_.D0.A7.D0.B5.D0.B1.D1.8B.D1.88.D0.B5.D0.B2.D0.B0}{(отсюда)}.
+ \begin{proof}
+     $$P(X \ge 15) \le \frac{3}{15} = 0.2.$$
+ \end{proof}
+
+О чем говорит неравенство Маркова по сути? Можно заметить, что при $x < EX$ утверждение не несет никакой полезной информации, вероятность по определению не больше единицы. Содержательность кроется в том, что при увеличении $x > EX$ вероятность получить результат больше этого числа убывает обратно пропорционально росту числа $x$.
+
+Это фундаментальное свойство, которое интуитивно должно выполняться, и выполняется. Но это еще не ЗБЧ, хотя и важный шаг к нему.
+
+\textbf{Неравенство Чебышева.} Пусть $X$ --- случайная величина, $DX \le \infty$. Тогда
+$$P(|X - EX| \ge \ep) \le \frac{DX}{\ep^2}.$$
+\begin{proof}
+    Положим $Y := |X-EX|$ и применим к $Y$ неравенство Маркова:
+    $$P(|X - EX| \ge \ep) = P((X - EX)^2 \ge \ep^2) \le \frac{E(X-EX)^2}{\ep^2} = \frac{DX}{\ep^2}.$$
+\end{proof}
+
+Здесь опять, как в неравенстве Маркова, утверждение об отклонении от математического ожидания. Но утверждение более конкретное: вероятность отклониться от математического ожидания можно оценить сверху числом зависящим от дисперсии. Что вполне логично, ведь мы интуитивно и думали о дисперсии, как о мере разброса.
+
+\textbf{Следствие (Правило трех сигм)}. Если $EX^2 < \infty$, то
+$$P(|X-EX| \le 3\sqrt{DX}) \ge \frac{8}{9}.$$
+\begin{proof}
+    $$P(|X-EX| > 3\sqrt{DX}) \le \frac{DX}{(3\sqrt{DX})^2} = \frac{1}{9}.$$
+\end{proof}
+
+\textbf{Теорема (Закон Больших Чисел).} Пусть $X_1,\ldots, X_n,\ldots$ --- н.о.р., $EX^2_1<\infty$. Тогда
+$$\forall \ep>0 \quad P\braces{\left| \frac{S_n}{n} - EX_1 \right| > \ep} \rightarrow 0, \quad n\rightarrow \infty$$
+или, на языке сходимостей,
+$$\frac{S_n}{n} \myarrow{P} EX_1.$$
+\begin{proof}
+    Пусть $X = \left| \frac{1}{n} S_n - EX_1 \right|$. Тогда
+    $$P\left(\left| \frac{1}{n} S_n - EX_1 \right| > \ep\right) \le \frac{D\braces{\frac{1}{n}S_n - EX_1}}{\ep^2} = \frac{D\braces{\frac{1}{n}S_n}}{\ep^2} = \frac{nDX_1}{\ep^2n^2} = \frac{DX_1}{\ep^2n} \rightarrow 0.$$
+\end{proof}
+
+\textbf{Усиленный ЗБЧ (Колмогоров, 1930)} Пусть $X_1,\ldots, X_n,\ldots$ --- н.о.р., и \mbox{$E|X_1|<\infty$}. Тогда
+$$P\braces{\lim_{n\rightarrow \infty} \frac{S_n}{n} = EX_1} = 1.$$
+
+\subsection*{Нормальное распределение (Normal Distribution)} \addcontentsline{toc}{subsection}{Нормальное распределение (Normal Distribution)}
+
+\textbf{Опр.} Нормальным распределением называется распределение, задаваемое плотностью
+$$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - a)^2}{2\sigma^2}},$$
+где $a$ --- мат. ожидание распределения, а $\sigma^2$ --- дисперсия.
+
+В случае $a = 0$, $\sigma^2 = 1$ говорят, что случайная величина имеет стандартное нормальное распеределение, а ее плотность упрощается до
+$$f_X (x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}.$$
+
+В жизни мы ощущаем нормальное распределение повсюду, этим никого не удивить. Считается, что есть норма, а есть отклонение от нормы и подсознательно даже понятно, что распределение симметрично и так далее. Но вот откуда возникает такое распределение, почему именно оно и в чем его секрет? На этот вопрос отвечает центральная предельная теорема.
+
+\subsection*{Центральная Предельная Теорема (Central Limit Theorem)} \addcontentsline{toc}{subsection}{Центральная Предельная Теорема (Central Limit Theorem)}
+
+\ex Среди людей $1\%$ левшей. Выбрали 100 человек. Какая вероятность, что среди них $\le 2$ левшей?
+
+\begin{proof}
+    Пусть $X$ --- количество левшей. Тогда
+    \begin{align*}
+        P(X \le 2) &= P(X = 0) + P(X=1) + P(X=3) = \\
+        &= 0.99^{100} + 0.99^{99} \cdot 0.01 \cdot 100 + C_{100}^2 \cdot 0.99^{98} \cdot 0.01^2.
+    \end{align*}
+    Но как такое считать? Очень сложно.
+\end{proof}
+
+\textbf{Теорема (Центральная предельная теорема).} Пусть $X_1,\ldots, X_n,\ldots$ --- н.о.р., $EX^2_1<\infty$. Тогда для любых $a < b$
+$$P\braces{a < \braces{\frac{S_n}{n} - EX_1}\frac{\sqrt n}{\sqrt{DX_1}} < b} \rightarrow\frac{1}{2\pi} \int_a^b e^{-\frac{x^2}{2}}dx, \quad n\rightarrow \infty$$
+или, на языке сходимостей,
+$$\braces{\frac{S_n}{n} - EX_1}\frac{\sqrt n}{\sqrt{DX_1}} \myarrow{d} Z \sim \mathcal{N}(0,1)$$
+или, переписав чуть иначе,
+$$\sqrt n\braces{\frac{S_n}{n} - EX_1} \myarrow{d} Z \sim \mathcal{N}(0,DX_1).$$
+
+\begin{proof}
+    Заметим, что
+    $$\frac{S_n - na}{\sigma \sqrt n} = \frac{1}{\sqrt n} \sum_{k=1}^n \widetilde{X_k}, \quad \text{где} \quad \widetilde{X_k} = \frac{X_k - na}{\sigma}.$$
+    Тогда $E\widetilde{X_k} = 0$, $D\widetilde{X_k} = 1$. 
+    
+    Вспомним, что характеристической функцией случайной величины $X$ называется функция
+    $$\ph_X(t) = Ee^{itX}, \quad t \in \R.$$
+    И для характистической функии справедливо разложение
+    $$\ph_X(t) = 1 + itEX + \cdots + \frac{(it)^n}{n!} EX^n + o(t^n), \quad t \rightarrow 0.$$
+    Поэтому
+    $$ \ph_{\widetilde{X_k}}(t) = 1 + itE\widetilde{X_k} + \frac{(it)^2}{2!} E\widetilde{X_k}^2 + o(t^2) = 1 - \frac{t^2}{2} + o(t^2), \quad t \rightarrow 0.$$
+Тогда по свойству характеристической функции
+$$\ph_{\frac{\widetilde{X_1} + \cdots + \widetilde{X_n}}{\sqrt{n}}}(t) = \ph_{\widetilde{X_1}} \braces{\frac{t}{\sqrt n}} \cdots \ph_{\widetilde{X_n}} \braces{\frac{t}{\sqrt n}} =\braces{\ph_{\widetilde{X_1}} \braces{\frac{t}{\sqrt n}}}^n$$
+Итого получаем, что
+$$\ph_{\frac{S_n-na}{\sigma\sqrt{n}}}(t) = \braces{\ph_{\widetilde{X_1}}\braces{\frac{t}{\sqrt{n}}}}^n = \braces{1 - \frac{t^2}{2n} +o\braces{\frac{1}{n}}}^n \rightarrow e^{-\frac{t^2}{2}}.$$
+По теореме Леви
+$$\frac{S_n - na}{\sigma \sqrt n} \myarrow{d} \mathcal{N}(0,1).$$
+\end{proof}
+
+\textbf{Следствие.} Если $EX_1 = 0$, $DX_1 = 1$, то ЦПТ упрощается:
+$$\frac{1}{\sqrt{n}} S_n \myarrow{d} \mathcal{N}(0,1)$$
+
+\threestars
+Сделаем несколько пояснений по поводу центральной предельной теоремы.
+
+Во-первых, обычно, когда хотят объяснить ребенку, что такое ЦПТ, говорят о том, что распределение суммы случайных величин стремится к нормальному. Но, если посмотреть на формулировку теоремы, то встает логичный вопрос: а зачем все эти нормировки, переусложнения? написали бы, что $S_n \myarrow{d} \mathcal{N}$ с какими-то параметрами, и все!
+
+Но, немножко подумав, выясняется, что такой сходимости-то не будет вовсе. Получается, врут детям? Впрочем, вернемся к этому вопросу чуть позже.
+
+Во-вторых, говорят о некоторой скорости сходмости, мол, сумма сходится к нормальному распределению со скоростью сходимости порядка $\sqrt{n}$. А это как понимать?
+
+Здесь речь идет о порядке слабой сходимости или, что то же, сходимости по распределению, которая нас здесь и интересует. Из ЗБЧ мы знаем, что если $EX_1 = 0$, то $\frac{S_n}{n} \myarrow{P} 0$ (а мы помним, что сходимость по вероятности к константе равносильна сходимости по распределению к той же константе), или же что $S_n = o(n)$ в смысле сходимости по распределению. А ЦПТ дает гораздо более точную асимптотическую оценку, она утверждает, что если поделить $S_n$ на нечто меньшее по порядку, чем $\sqrt{n}$, то получим расходимость, а если поделить на большее по порядку, то получим ноль. На языке $o$-символики, из ЦПТ следует, что $S_n = O(\sqrt{n})$.
+
+По поводу сходимости частичных сумм $S_n$ проблема возникает следующая. Если $DX_1 = \sigma^2$, то $DS_n = n\sigma^2$, то есть дисперсия стремится к бесконечности, и никакой нормальной случайной величины мы в пределе не получим. Но это еще не повод расстраиваться. Распределение $S_n$ при достаточно больших $n$ все равно будет близко к нормальному, просто предела не будет.
+
+Допустим надо найти вероятность того, что $F_{S_n}(m) = P(S_n \le m)$, при этом $n$ считается достаточно большим, тогда
+\begin{align*}
+    P(S_n \le m) &= P\braces{\frac{\sqrt{n}}{\sqrt{DX_1}} \braces{\frac{S_n}{n} - EX_1} \le \frac{\sqrt{n}}{\sqrt{DX_1}} \braces{\frac{m}{n} - EX_1}} \approx \\
+    & \approx \Phi\braces{\frac{\sqrt{n}}{\sqrt{DX_1}} \braces{\frac{m}{n} - EX_1}}
+\end{align*}
+Вот в каком смысле $S_n$ стремится к нормальной случайной величине.
+
+Теперь по поводу скорости сходимости. Закон больших чисел говорит о том, что среднее арифметическое стремится по вероятности к математическому ожиданию, но ничего не говорит о том, как оно стремится. ЦПТ дает сильно больше.
+
+Рассмотрим
+\begin{align*}
+    P\braces{-\ep < \frac{\sqrt{n}}{\sqrt{DX_1}} \braces{\frac{S_n}{n}  - EX_1} < \ep}& = P\braces{-\ep \frac{\sqrt{DX_1}}{\sqrt{n}} < \frac{S_n}{n} - EX_1 < \ep \frac{\sqrt{DX_1}}{\sqrt{n}}} \approx \\
+    & \approx 2\Phi(\ep) - 1
+\end{align*}
+То есть при увеличении $n$ радиус области уменьшается со скоростью $\sqrt{n}$, а вероятность попасть в эту область сохраняется постоянной.
+
+\threestars
+
+Еще одно изложение сути центральной предельной теоремы. Запишем ее утверждение через $O$-символику:
+$$\braces{\frac{S_n}{n}-EX_1} \frac{\sqrt{n}}{\sqrt{DX_1}} = Z + o(1), \quad n\rightarrow \infty,$$
+тогда можно переписать
+$$\frac{S_n}{n}-EX_1 = \frac{\sqrt{DX_1}}{\sqrt{n}} Z + o\braces{\frac{1}{\sqrt{n}}}, \quad n\rightarrow \infty,$$
+в целом уже неплохо, но перепишем еще и вот так:
+$$\frac{S_n}{n} = EX_1 + \frac{\sqrt{DX_1}}{\sqrt{n}} Z + o\braces{\frac{1}{\sqrt{n}}}, \quad n\rightarrow \infty,$$
+
+Теперь отлично видно, что ЦПТ дает асимптотическую формулу для $\frac{S_n}{n}$, которая складывается из суммы математического ожидания, нормально распределенной случайной величины $\mathcal{N}\braces{0, \frac{DX_1}{n}}$ и остаточной величины, стремящейся к нулю быстрее, чем $\frac{1}{\sqrt{n}}$. 
+\threestars
+
+\ex Какая вероятность того, что при 1600 подбрасываниях монеты, выпадет менее 700 орлов?
+\begin{proof}
+    $$P(X_1 + \cdots + X_n \le 700) = P \braces{\frac{X_1 + \cdots + X_n - nEX_1}{\sqrt{nDX_1}}\le \frac{700-800}{\sqrt{\frac{1}{4}\cdot 1600}}} \approx \Phi(-5) \approx 0$$
+\end{proof}
+
+\ex Какова вероятность того, что мальчиков не больше, чем девочек среди $n = 1000$ детей?
+
+\begin{proof}
+    \begin{align*}
+        P(S_n \le 500) &= P\braces{\braces{\frac{S_n}{n}-np}\frac{\sqrt{n}}{\sqrt{np(1-p)}}\le \braces{\frac{500}{n}-np}\frac{\sqrt{n}}{\sqrt{np(1-p)}}} \approx \\
+        &\approx \Phi(-3) \approx 0.0015
+    \end{align*}
+\end{proof}
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+
+\textbf{Задача 1.} Складывается $10^6$ чисел, округленных с точностью до $10^{-m}$. Предполагая, что ошибки округления независимы и $\sim R(-0.5 \cdot 10^{-m}, 0.5 \cdot 10^{-m})$, найти пределы, в которых с вероятностью $\ge 0.95$ будет лежать суммарная ошибка.
+
+\begin{proof}
+    Дано $n = 10^6$ н.о.р.с.в. $\sim R(a,b)$, где $a = -0.5 \cdot 10^{-m}$, $b = 0.5 \cdot 10^{-m}$.
+
+    Мы хотим найти число $c$: $P(-c < S_n < c) \ge 0.95 = p.$
+
+    Заметим, что $EX_1 = \frac{a+b}{2} = 0 \Rightarrow ES_n = 0$, и $\sigma^2 = DX_1 = \frac{(b-a)^2}{12} = \frac{10^{-2m}}{12}$. Поэтому
+    $$\braces{\frac{S_n}{n} - EX_1}\frac{\sqrt n}{\sqrt{DX_1}} = \frac{S_n}{ \sigma\sqrt n}.$$
+
+    Тогда, используя ЦПТ, получим
+    \begin{align*}
+        P(-c < S_n < c) &= P\braces{\frac{|S_n|}{\sigma \sqrt n} < \frac{c}{\sigma \sqrt n}} \approx \frac{1}{\sqrt{2\pi}} \int_{-c/\sigma\sqrt n}^{c/\sigma\sqrt n} e^{-\frac{x^2}{2}}dx = \\ 
+        & = \Phi\braces{c/\sigma\sqrt n} - \braces{1 - \Phi\braces{c/\sigma\sqrt n}} =\\ 
+        &= 2\Phi\braces{c/\sigma\sqrt n} - 1 = 0.95 \Rightarrow \Phi\braces{c/\sigma\sqrt n} = 1.95/2 = 0.975
+    \end{align*}
+
+    Где $\Phi(x)$ --- табличное значение. $\Phi(x) = 0.975$ при $x = 1.96$. Таким образом,
+    $$c = 1.96 \cdot \sigma\sqrt n = 1.96 \cdot \frac{10^{-m}}{\sqrt{12}} \cdot 10^3 \approx 0.57 \cdot 10^{3-m}$$
+
+\end{proof}
+
+\section*{Асимптотические свойства оценок} \addcontentsline{toc}{section}{Асимптотические свойства оценок}
+\textbf{Опр.} Последовательность оценок $\{\thetah_n(X_1,\ldots, X_n)\}_{n=1}^\infty$ называется состоятельной оценкой (consistent estimator) параметра $g(\theta)$, если
+$$\thetah_n(X_1, \ldots, X_n) \myarrow{P} g(\theta) \quad \forall \theta \in \Theta$$
+и обозначается просто $\thetah(X_1,\ldots, X_n)$.
+
+При этом если
+$$\thetah_n(X_1, \ldots, X_n) \myarrow{\text{п.н.}} g(\theta) \quad \forall \theta \in \Theta,$$
+то $\thetah$ называется сильно состоятельной (strongly consistent).
+
+\ex Если $X_i \sim Bern(\theta)$, то $\bX \myarrow{\text{п.н.}} \theta$ в силу УЗБЧ. Значит, $\bX$ --- сильно состоятельная оценка. Аналогично и в произвольной модели, где $EX_i < \infty$, $\bX$ будет сильно состоятельно оценкой для мат. ожидания.
+
+\textbf{Опр.} Если существует последовательность $\{\sigma_n(\theta)\}$, сходящаяся к нулю, такая, что
+$$\frac{\thetah_n(X_1, \ldots, X_n) - g(\theta)}{\sigma_n(\theta)} \myarrow{d} Z \sim \mathcal{N}(0,1),$$
+то оценка $\thetah$ называется асимптотически нормальной оценкой $g(\theta)$ (asymptotically normal). Мы будем рассматривать оценки вида
+$$\sqrt{n}\frac{\thetah_n(X_1, \ldots, X_n) - g(\theta)}{\sigma(\theta)} \myarrow{d} Z \sim \mathcal{N}(0,1).$$
+Величина $\sigma^2(\theta)$ называется асимптотической дисперсией оценки $\thetah$ (asymptotic variance).
+
+\textbf{Лемма.} Если $\exists a \in \R$ и последовательность $g_n \rightarrow \infty$, такие, что
+$$g_n(X_n-a) \myarrow{d} Z \sim \mathcal{N}(0,\sigma^2),$$
+то 
+$$\forall h \in D(\R) \quad g_n(h(X_n)-h(a)) \myarrow{d} Z \sim \mathcal{N}(0, (h'(a))^2\cdot \sigma^2))$$
+или, иначе,
+$$g_n \frac{h(X_n)-h(a)}{\sigma |h'(a)|} \myarrow{d} Z \sim \mathcal{N}(0,1).$$
+То есть асимптотическая нормальность является инвариантным свойством относительно действия дифференцируемых функций.
+
+\threestars
+Почему вообще мы хотим, чтобы оценка была асимптотически нормальной? Причина в том, что математика все-таки строится, опираясь на жизненную интуицию. А в жизни, когда мы говорим об оценивании чего-либо, всегда подразумеваем, часто не осознавая, нормальную оценку.
+
+Иначе говоря, уже подумав об оценке какого-либо параметра (роста, возраста, пола человека), мы по тем данным, которые есть, предполагаем, что есть некая норма, а есть отклонение от этой нормы. Поэтому требовать от оценки, что она будет на множестве испытаний давать именно нормальное распределение --- естественно.
+
+Но и скорость сходимости $\sqrt{n}$ мы требуем неслучайно. Да, можно и другую рассматривать, но $\sqrt{n}$, в каком-то смысле, канонична. Мы же уже имеем из ЦПТ оценку математического ожидания, которая имеет именно такую оценку
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+\textbf{Задача 1.} $X_i \sim \mathcal{N}(\theta, 1)$, $i \le n$. Для какого параметра составятельна оценка $\braces{\bX}^2 \cdot \overline{X^2}$?
+\begin{proof}
+    По ЗБЧ $\bX \myarrow{P} EX_1 = \theta$. Поэтому $\bX^2 \myarrow{P} \theta^2$.
+
+    Также по ЗБЧ:
+    $$\overline{X^2} = \frac{X_1^2 + \cdots + X_n^2}{n} \myarrow{P} EX_1^2 = DX_1 + (EX_1)^2 = 1 + \theta^2$$
+
+    Отсюда $\braces{\bX}^2 \cdot \overline{X^2} \myarrow{P} \theta^2 (1+\theta^2)$.
+\end{proof}
+
+\textbf{Задача 2.} Показать, что $(X_{(1)} + \bX -1)/2$ является состоятельной оценкой, где $X_i \sim exp(\theta,1)$ (плотность $e^{-(x-\theta)} I_{x > \theta}$).
+
+\begin{proof}
+    Найдем предел по распределению для $X_{(1)} := \min X_i$. Если будет иметь место сходимость к константе, то по вероятности будет тот же предел. Итак,
+    \begin{align*}
+        F_{X_{(1)}} (x) &= P(X_{(1)} \le x) = P(\min X_i \le x) = \\
+        & = 1 - P(\forall i \ X_i > x) = 1- P(X_1 > x) \cdots P(X_n > x) = \\
+        & = 1 - (P(X_1 > x))^n = 1 - (1 - P(X_1 \le x))^n
+    \end{align*}
+    Найдем ф.р. случайной величины $X_1$:
+    \begin{align*}
+        F_{X_1} (x) = \int_{-\infty}^x e^{-(t-\theta)} I_{x > \theta}(t) dt
+    \end{align*}
+    Видно, что при $x < \theta$ имеем $F_{X_1}(x) = 0$, при $x \ge \theta$
+    $$F_{X_1} (x) = \int_\theta^x e^{-(t-\theta)}dt = -e^{-(t-\theta)} \bigg|_\theta^x = -e^{-(x-\theta)} + 1.$$
+    Тогда
+    \[
+        F_{X_{(1)}} (x) = 
+        \begin{cases}
+            0, & x < \theta \\
+            1 - (1-1 + e^{-(x-\theta)})^n, & x\ge \theta
+        \end{cases}
+        = (1 - e^{-n(x-\theta))}) I_{x \ge \theta}(x) \rightarrow I_{x \ge \theta}(x)
+    \]
+    Таким образом, $X_{(1)} \myarrow{P} \theta$.
+
+    Далее, $\bX \myarrow{P} EX_1$ по ЗБЧ. Найдем $EX_1$:
+    \begin{align*}
+        EX_1 &= \int_{-\infty}^{+\infty} xe^{-(x-\theta)} I_{x > \theta} dx = \int_\theta^{+\infty} xe^{-(x-\theta)} dx = \\
+        & = x \braces{-e^{-(x-\theta)}} \bigg|_\theta^{+\infty} + \int_\theta^{+\infty} e^{-(x-\theta)} dx = \\
+        & = \theta + \braces{-e^{-(x-\theta)}}\bigg|_\theta^{+\infty} = \theta + 1.
+    \end{align*}
+
+    Итого, получаем, что
+    $$\frac{X_{(1)} + \bX -1}{2} \myarrow{P} \frac{\theta + \theta + 1 - 1}{2} = \theta.$$
+\end{proof}
+
+\textbf{Задача 3.} Показать, что при $EX_1^4 < \infty$ оценка $S^2$ асимптотически нормальна для дисперсии $X_i$ а) при $EX_1 = 0$, б) в общем случае. Найти ее асимптотическую дисперсию.
+
+\begin{proof}
+    Напомним, что $S^2 = \frac{1}{n}\sum_{i=1}^n (X_i - \bX)^2$.
+
+    По определению асимпотической нормальности нам надо показать, что
+    $$\sqrt{n} \frac{S^2-DX_1}{\sigma} \myarrow{d} \mathcal{N}(0,1)$$
+    где $\sigma$ --- асимптотическая дисперсия.
+
+    Рассмотрим случай, когда $EX_1 = 0$.
+
+    Распишем
+    \begin{align*}
+        \sqrt{n} (S^2 - DX_1) & = \frac{1}{\sqrt{n}} \sum_{i=1}^n \braces{X_i^2 - 2X_i\bX + X^2 - DX_1} = \\
+        & = \frac{1}{\sqrt{n}} \braces{\sum_{i=1}^n (X_i^2 - DX_1) - 2\bX\sum_{i=1}^n X_i + n\bX} = \\
+        & = \frac{1}{\sqrt{n}} \sum_{i=1}^n (X_i^2 - DX_1) - 2\sqrt{n}\bX^2 + \sqrt{n} \bX^2 =\\
+        & = \frac{1}{\sqrt{n}} \sum_{i=1}^n (X_i^2 - DX_1) - \sqrt{n}\bX^2 = (*)
+    \end{align*}
+
+    Обратим внимание на слагаемое $\sqrt{n} \bX^2$. Из ЦПТ мы знаем, что $\bX = O\braces{\frac{1}{\sqrt{n}}}$, а потому  $\sqrt{n} \bX^2 = O\braces{\frac{1}{\sqrt{n}}}$ и, значит, стремится к нулю. Но в этой записи скрыто слишком много технических нюансов, поэтому сделаем все аккуратно:
+    \begin{align*}
+        \sqrt{n}\bX^2 & = \sqrt{n} \braces{\sum_{i=1}^n X_i}^2 \cdot \frac{1}{n^2} = n^{-2/3} \braces{\sum_{i=1}^n X_i}^2 =\\
+        & = \frac{1}{\sqrt{n}} \braces{\frac{1}{\sqrt{n}} \sum_{i=1}^n X_i}^2 \myarrow{d} 0,
+    \end{align*}
+    так как второй множитель стремится по распределению к $\mathcal{N}(0,1)$, первый стремится к нулю как числовая последовательность, а результат, по лемме Слуцкого стремится к нулю.
+
+    Теперь вернемся к первому слагаемому в $(*)$. Тут хочется применить ЦПТ для суммы $Y_i = X_i^2 - DX_1$. Для этого найдем $EY_1$ и $DY_1$.
+    \begin{align*}
+        &EY_1 = E(X_1^2 - DX_1) = EX_1^2 - DX_1 = EX_1^2 - (EX_1^2 - (EX_1)^2) = 0\\
+        &DY_1 = D(X_1^2 - DX_1) = DX_1^2 = EX_1^4 - (EX_1^2)^2 = EX_1^4 - (DX_1)^2
+    \end{align*}
+    Таким образом,
+    $$\sqrt{n} \frac{S^2 - DX_1}{\sqrt{EX_1^4 - (DX_1)^2}} \myarrow{d} \mathcal{N}(0,1),$$
+    значит, асимптотическая дисперсия есть $EX_1^4 - (DX_1)^2$.
+
+    В случае $EX_1 = a \neq 0$ нужно рассмотреть $\widetilde{X_i} = X_i - a$. Тогда $E\widetilde{X_i} = 0$, при этом $S^2 = \widetilde{S}^2$. И далее мы получим, что
+    $$\sqrt{n} \frac{\widetilde S^2 - D\widetilde X_1}{\sqrt{E\widetilde X_1^4 - (D \widetilde X_1)^2}} = \sqrt{n} \frac{S^2 - DX_1}{\sqrt{E(X_1-a)^4 - (DX_1)^2}} \myarrow{d} \mathcal{N}(0,1)$$
+
+    Решение взято \href{https://math.stackexchange.com/questions/1994221/proving-frac-sqrtns-n2-sigma2-sqrtu-2-sigma4-rightarrow-n0-1}{отсюда}.
+\end{proof}
+
+\textbf{Задача 4.} Пусть $X_i \sim R[0, \theta]$. Показать, что $\sqrt[k]{(k+1) \overline{X^k}}$ --- асимптотически нормальная оценка $\theta$. Найти ее асимптотическую дисперсию. Существует ли среди указанных оценок оценка с наименьшей асимптотической дисперсией?
+\begin{proof}
+    Как доказывать асимптотическую нормальность? Либо применить ЦПТ напрямую, либо воспользоваться Леммой. Первый вариант не подходит, потому что интересующая оценка не является суммой. Поэтому нужно думать в сторону второго варианта.
+
+    Но нам так или иначе все равно нужно где-то применить ЦПТ, чтобы получить асимптотически нормальную последовательность случайных величин, из которой можно будет получить нужную оценку. Скорее всего, читатель быстро догадается, взглянув на оценку $\sqrt[k]{(k+1) \overline{X^k}}$, что можно применить ЦПТ тут только к $\overline{X^k}$. Сделаем это.
+
+    Найдем $E\overline{X^k} = EX_1^k$:
+    $$EX_1^k = \int_{\R} x^k \frac{1}{\theta} I_{[0, \theta]}(x) dx = \frac{1}{\theta} \frac{x^{k+1}}{k+1} \bigg|_0^\theta = \frac{\theta^k}{k+1}.$$
+    Из ЦПТ получаем, что $\overline{X^k}$ --- асимптотически нормальна для $\frac{\theta^k}{k+1}$.
+    
+    А дальше уже понятно, что нужно применить Лемму с функцией $h(x) = \sqrt[k]{(k+1)x}$ и получим, что оценка $\sqrt[k]{(k+1) \overline{X^k}}$ --- асимптотически нормальная оценка $\theta$.
+
+    Найдем теперь асимтотическую дисперсию этой оценки. Для этого сначала найдем дисперсию $X_1^k$:
+    \begin{align*}
+        DX_1^k &= EX_1^{2k} - (EX_1^k)^2 = \frac{\theta^{2k}}{2k+1} - \braces{\frac{\theta^k}{k+1}}^2 = \\
+        & = \theta^{2k} \braces{\frac{1}{2k+1} - \frac{1}{(k+1)^2}} = \theta^{2k} \frac{k^2+2k + 1 - 2k - 1}{(2k+1)(k+1)^2} =\\
+        & = \frac{k^2}{(2k+1)(k+1)^2} \theta^{2k}
+    \end{align*}
+    Теперь найдем производную $h(x)$ и подставим $x = EX_1^k$:
+    \begin{align*}
+        &h'(x) = \braces{\braces{(k+1)x}^{\frac{1}{k}}}' = \frac{k+1}{k}((k+1)x)^{\frac{1-k}{k}}\\
+        &h'\braces{\frac{\theta^k}{k+1}} = \frac{k+1}{k}\braces{(k+1) \frac{\theta^k}{k+1}}^{\frac{1-k}{k}} = \frac{k+1}{k} \theta^{1-k}
+    \end{align*}
+    Тогда по Лемме асимтотическая дисперсия оценки $\sqrt[k]{(k+1) \overline{X^k}}$ будет равна
+    $$DX_1^k \cdot \braces{h'\braces{\frac{\theta^k}{k+1}}}^2 = \frac{k^2}{(k+1)^2(2k+1)}\theta^{2k} \cdot \frac{(k+1)^2}{k^2} \theta^{2-2k} = \frac{\theta^2}{2k+1}.$$
+    А значит, при увеличении $k$ асимптотическая дисперсия будет монотонно стремиться к нулю, т.е. среди таких оценок оценки с наименьшей дисперсией не существует.
+\end{proof}
+
+\textbf{Задача 5.} Найти функции, для которых $\sqrt{(X_1^2 + \cdots + X_n^2)/n}$, $\sqrt[n]{X_1\cdots X_n}$ и $n/(1/X_1 + \cdots + 1/X_n)$ асимптотически нормальные, $X_i \sim R[1, \theta]$.
+\begin{proof}
+    Найдем второй момент
+    \begin{align*}
+        EX_i^2 = \int_1^\theta x^2 \frac{1}{\theta-1} dx = \frac{1}{\theta - 1} \frac{x^3}{3}\bigg|_1^\theta = \frac{\theta^2 + \theta + 1}{3}
+    \end{align*}
+    Значит, по ЦПТ, $\overline{X^2}$ --- а.н. оценка для $\frac{\theta^2 + \theta + 1}{3}$. А по Лемме, $\sqrt{\overline{X^2}}$ --- а. н. оценка для $\sqrt{\frac{\theta^2 + \theta + 1}{3}}$.
+    
+    Далее, $\ln \sqrt[n]{X_1\cdots X_n} = \bX$, это а.н. оценка для $EX_1$. Значит, сама $\sqrt[n]{X_1\cdots X_n}$ является а.н. оценкой для $e^{EX_1}$. Найдем первый момент:
+    $$EX_1 = \int_1^\theta x \frac{1}{\theta - 1}dx = \frac{1}{\theta - 1} \frac{x^2}{2} \bigg|_1^\theta = \frac{\theta+1}{2}.$$
+    Итого, $\sqrt[n]{X_1\cdots X_n}$ есть а.н. оценка для $e^{\frac{\theta+1}{2}}$.
+
+    Для третьего случая поступаем аналогично. Находим
+    $$E\frac{1}{X_1} = \int_1^\theta \frac{1}{x} \frac{1}{\theta - 1} dx = \frac{1}{\theta-1} \ln x \bigg|_1^\theta = \frac{\ln \theta}{\theta - 1}.$$
+    Значит, $\overline{\frac{1}{X}}$ --- а.н. оценка для $\frac{\ln \theta}{\theta - 1}$, а тогда по Лемме, $1/\overline{\frac{1}{X}}$ --- а.н. для $\frac{\theta - 1}{\ln \theta}$.
+\end{proof}
+
+\section*{Методы получения оценок} \addcontentsline{toc}{section}{Методы получения оценок}
+Мы уже порассуждали на тему того, что такое оценивание и определились со свойствами оценок, которые нас интересуют. Методы получения состоятельных и асимптотически нормальных оценок у нас очень ограничены. По сути мы имеем только ЗБЧ и ЦПТ, больше ничего. Но есть и другие способы, с которыми нам предстоит познакомиться.
+
+\subsection*{Метод моментов (Method of moments)} \addcontentsline{toc}{subsection}{Метод моментов (Method of moments)}
+
+Итак, мы хотим строить состоятельные, а лучше асимптотически нормальные оценки. При этом мы знаем, что $\bX$ является состоятельной оценкой для $EX_1$, а в случае $EX_1^2 < \infty$, еще и асимптотически нормальной. Но $EX_1 = a(\theta)$, то бишь некоторый параметр распределения. И тогда, если $a(x)$ --- гладкая обратимая функция, то $a^{-1}(\bX)$ будет оценкой $\theta$, обладающей теми же свойствами. В этом и заключается метод моментов.
+
+\textbf{Пример 1.} Рассмотрим модель сдвига экспоненциального распределения, т.е. $X_i$ имеют плотность
+$$f_\theta(x) = e^{-(x-\theta)}I_{x > \theta}(x).$$
+Тогда 
+$$EX = \int_\theta^\infty xe^{-(x-\theta)} dx = |y = x-\theta| = \theta + \int_0^\infty ye^{-y} dy = \theta + \Gamma(2) = \theta  + 1.$$
+Таким образом, $\bX$ --- состоятельная оценка для $\theta + 1$, следовательно, $\thetah = \bX - 1$ --- состоятельная оценка для $\theta$.
+
+\textbf{Пример 2.} Пусть $X_i \sim \mathcal{N}(0, \theta^2)$. Тогда $EX_1 = 0 = a(\theta)$, а значит, функция $a$ необратима. В таких случаях надо рассмотреть следующий момент $EX_1^2 = \theta^2$. А мы знаем, что по ЦПТ $\overline{X^2}$ --- а.н. оценка для $EX_1^2$, значит, по Лемме, $\sqrt{\overline{X^2}}$ --- а.н. оценка для $\theta$.
+
+\subsection*{Оценка максимального правдоподобия (Maximum likelihood\\ estimation)} \addcontentsline{toc}{subsection}{Оценка максимального правдоподобия (Maximum likelihood\\ estimation)}
+Пусть выборка приняла значение $x = (x_1, \ldots, x_n)$. Тогда при каждом $\theta$ для дискретных выборок можно вычислить вероятность попадания выборки $X_1, \ \ldots, X_n$ в эти значения, а для абсолютно-непрерывных --- плотность в точке $(x_1, \ldots, x_n)$. Чем больше это значение, тем более вероятен результат $(x_1, \ldots, x_n)$. Идея в том, чтобы найти $\theta$, при котором как раз эта вероятность наибольшая.
+
+\df Функцией правдоподобия выборки $X_1, \ldots, X_n$ в дискретном случае называется совместное распределение
+$$L(x_1, \ldots, x_n; \theta) = P_\theta(X_1 = x_1, \ldots, X_n = x_n),$$
+а в абсолютно-непрерывном случае --- совместную плотность
+$$L(x_1, \ldots, x_n; \theta) = f_{X_1, \ldots, X_n; \theta} (x_1, \ldots, x_n).$$
+
+\df Оценкой максимального правдоподобия $\thetah(X_1, \ldots, X_n)$ называется функция $\thetah(x_1, \ldots, x_n)$:
+$$L(x_1, \ldots, x_n; \thetah(x_1, \ldots, x_n)) \ge L(x_1, \ldots, x_n; \theta) \quad \forall x_i, \theta.$$
+
+\noindent\textbf{Пример 1.} Рассмотрим схему Бернулли с параметром $\theta$. Функция правдоподобия будет иметь вид
+$$L(x_1, \ldots, x_n; \theta) = \theta^{x_1 + \cdots + x_n} (1- \theta)^{n-x_1-\cdots - x_n}$$
+тогда возьмем логарифм от нее
+$$\ln L(x_1, \ldots, x_n; \theta) = (x_1 + \cdots + x_n) \ln \theta + (n - x_1 - \cdots - x_n) \ln(1-\theta)$$
+При $x_1, \ldots, x_n \in \{0,1\}$ дифференцируем по $\theta$ и приравниваем к нулю, откуда
+$$\frac{x_1 + \cdots + x_n}{\theta} = \frac{n - x_1 - \cdots - x_n}{1 - \theta},$$
+то есть $\theta = \overline{x}$. При этом, в этой точке у $\ln L$ максимум, следовательно ОМП будет $\bX$.
+
+\noindent\textbf{Пример 2.} Рассмотрим $X_i \sim \mathcal{N}(\theta_1, \theta_2^2)$. Тогда
+$$L(x_1, \ldots, x_n; \theta) = \frac{1}{(2\pi \theta_2^2)^{n/2}} \exp\braces{-\sum_{i=1}^n \frac{(x_i - \theta_1)^2}{2\theta_2^2}}$$
+$$\ln L(x_1, \ldots, x_n; \theta) = -\frac{n}{2} \ln (2\pi) - n\ln \theta_2 - \sum_{i=1}^n \frac{(x_i - \theta_1)^2}{2\theta_2^2}.$$
+Приравняв производные по $\theta_1$ и $\theta_2$ к нулю, получаем уравнения
+$$\sum_{i=1}^n \frac{x_i-\theta_1}{\theta_2^2} = 0, \quad -\frac{n}{\theta_2} + \sum_{i=1}^n \frac{(x_i - \theta_1)^2}{\theta_2^3} = 0.$$
+Из первого уравнения $\thetah_1 = \bX$, из второго $\thetah_2 = S^2$. Это ОМП для $\theta_1, \theta_2$, если в этой точке достигается максимум. Это вытекает из того, что
+$$L(x, \theta_1, \theta_2) \le L(x, \thetah_1, \theta_2) \le L(x, \thetah_1, \thetah_2)$$
+в силу знаков производной: максимум $L$ по первой переменной при любом $\theta_2$ достигается в точке $\thetah_1$, а при такой первой переменной максимум по второй достигается в $\thetah_2$.
+
+\subsection*{Оценка методом спейсингов}\addcontentsline{toc}{subsection}{Оценка методом спейсингов}
+
+\df Пусть
+$$D(x_1, \ldots, x_n; \theta) = F(x_{(1)}; \theta) (F(x_{(2)}; \theta) - F(x_{(1)}; \theta)) \cdots (1 - F(x_{(n)};\theta).$$
+Тогда оценкой методом спейсингов (ОМС) называют функцию $\thetah(x_1, \ldots, x_n)$, такую, что
+\[
+D(x_1, \ldots, x_n; \thetah(x_1, \ldots, x_n) \ge D(x_1, \ldots, x_n; \theta) \quad \forall x_i, \theta.
+\]
+
+\noindent\textbf{Пример 3.} Пусть $X_i \sim R[0, \theta]$. Тогда
+\[
+D(x_1, \ldots, x_n; \theta) = \frac{x_{(1)} (x_{(2)} - x_{(1)}) \cdots (\theta - x_{(n)})}{\theta^{n+1}} I_{0 < x_{(1)} < \cdots < x_{(n)} < \theta}.
+\]
+Максимизация $D$ равносильна максимизации $\ln (\theta - x_{(n)}) - (n+1) \ln \theta$. Дифференцируем по $\theta$ и приравниваем к нулю:
+\[
+\frac{1}{\theta - x_{(n)}} - \frac{n+1}{\theta} = 0
+\]
+откуда получаем решение $\theta = \frac{n+1}{n}x_{(n)}$. Причем это действительно максимум. Эта оценка несмещенная в отличие от ОМП.
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+
+\problem Пусть $X_i \sim R[\theta, \theta + 1]$. Найти а) ОМП, б) ОМС для $\theta$.
+
+\begin{proof}
+    a) Имеем плотность $f_{X_i}(x) = I_{[\theta, \theta+1]}$. Тогда Функция правдоподобия
+    \begin{align}
+        L(x_1, \ldots, x_n; \theta) &= \prod_{i=1}^n I_{[\theta, \theta+1]}(x_i) = 
+        \begin{cases}
+            1, & x_{(1)} \ge \theta, x_{(n)} \le \theta + 1\\
+            0, & \text{иначе}
+        \end{cases} =\\
+        & = I_{[x_{(n)} - 1, x_{(1)}]} (\theta)
+    \end{align}
+    Эта функция достигает своего максимального значения $1$ при всех $x_{(n)} - 1 \le \theta \le x_{(1)}$. Все они будут ОМП. Например, можно взять
+    \[
+    \thetah(X_1, \ldots, X_n) = \frac{X_{(1)} + X_{(n)}}{2}.
+    \]
+    б) Применим метод спейсингов. Напишем по определению функцию
+    \[
+    D(x_1, \ldots, x_n; \theta) = F(x_{(1)}; \theta) (F(x_{(2)}; \theta) - F(x_{(1)}; \theta)) \cdots (1 - F(x_{(n)};\theta) = (*)
+    \]
+    В нашем случае
+    \[
+    F(x; \theta) = (x-\theta) I_{[\theta, \theta+1]}
+    \]
+    поэтому
+    \begin{align*}
+    (*) &= (x_{(1)} - \theta) (x_{(2)} - \theta - x_{(1)} +\theta)\cdots (1 - x_{(n)} +\theta)I_{\theta \le x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)} \le \theta+1} =\\
+    & = (x_{(1)} - \theta) (x_{(2)} - x_{(1)})\cdots (1 +\theta - x_{(n)})I_{\theta \le x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)} \le \theta+1}
+    \end{align*}
+    Тогда
+    \[
+    \ln D = \ln(x_{(1)}-\theta) + \ln (x_{(2)} - x_{(1)}) + \cdots + \ln (1+\theta-x_{(n)})
+    \]
+    Продифференцируем по $\theta$ и приравняем к нулю:
+    \[
+    -\frac{1}{x_{(1)} - \theta} + \frac{1}{1+\theta - x_{(n)}} = 0 \Leftrightarrow x_{(1)} - \theta = 1 + \theta - x_{(n)}
+    \]
+    Отсюда получаем, что
+    \[
+    \theta = \frac{x_{(1)} + x_{(n)} - 1}{2}.
+    \]
+    Это максимум, поэтому ОМС будет
+    \[
+    \thetah = \frac{X_{(1)} + X_{(n)} - 1}{2}.
+    \]
+\end{proof}
+
+\problem Пусть $X_i \sim \exp (\theta, 1)$. Найти а) ОМП, б) ОМС для $\theta$.
+\begin{proof}
+    $$X_i \sim \exp(\theta,1) \Leftrightarrow f_{X_i}(x; \theta) = e^{-(x-\theta)} I_{x \ge \theta}.$$
+    1) Таким образом, функия правдоподобия
+    \[
+    L(x_1, \ldots, x_n; \theta) = \prod_{i=1}^n e^{\theta - x_i} I_{x_i \ge \theta} = I_{x_{(1)} \ge \theta} \prod_{i=1}^n e^{\theta - x_i}. 
+    \]
+    Ясно, что при $\theta > x_{(1)}$ значение будет равно нулю, а это, очевидно, не максимальное значение. Поэтому далее рассмотрим случай $\theta \le x_{(1)}$. Тогда
+    \[
+    \ln L = \sum_{i=1}^n (\theta - x_i) \Rightarrow \frac{d \ln L}{d\theta} = n,
+    \]
+    то есть критических точек нет, то есть функция монотонно возрастает с ростом $\theta$. Значит, максимум достигается при $\theta = x_{(1)}$. Тогда ОМП будет $\thetah = X_{(1)}$.
+
+    2) Теперь перейдем к методу спейсингов:
+    \[
+    D(x_1, \ldots, x_n; \theta) = F(x_{(1)};\theta) (F(x_{(2)};\theta) - F(x_{(1)};\theta)) \cdots (1 - F(x_{(n)};\theta))
+    \]
+    Функция распределения для сдвинутого экспоненциального распределения есть
+    \[
+    F(x;\theta) = (1-e^{-(x-\theta)}) I_{x \ge \theta}.
+    \]
+    Тогда
+    \begin{align*}
+        D &= (1 - e^{-(x_{(1)}-\theta)}) (1 - e^{-(x_{(2)}-\theta)} - 1 + e^{-(x_{(1)}-\theta)}) \cdots (1- 1 + e^{-(x_{(n)}-\theta)})) I_{x_{(1)} \ge \theta} =\\
+        & = (1 - e^{-(x_{(1)}-\theta)}) e^\theta (e^{-x_{(1)}} - e ^{- x_{(2)}}) \cdots e^\theta e^{-x_{(n)}} I_{x_{(1)} \ge \theta} =\\
+        & = e^{n\theta} (1 - e^{-(x_{(1)}-\theta)})(e^{-x_{(1)}} - e ^{- x_{(2)}}) \cdots e^{-x_{(n)}} I_{x_{(1)} \ge \theta}
+    \end{align*}
+    Отсюда берем логарифм (далее считаем, что $x_{(1)} \ge \theta$)
+    \[
+    \ln D = n\theta + \ln(1 - e^{-(x_{(1)}-\theta)}) + \ln (e^{-x_{(1)}} - e ^{- x_{(2)}}) + \cdots - x_{(n)}.
+    \]
+    Производная по $\theta$ всех слагаемых, кроме первых двух, равна нулю, поэтому, находя производную и приравнивая ее к нулю, получаем
+    \[
+    \frac{d \ln D}{d\theta} = n - \frac{e^{-(x_{(1)}-\theta)}}{1 - e^{-(x_{(1)}-\theta)}} = 0.
+    \]
+    Далее решаем уравнение:
+    \begin{align*}
+        &n = \frac{e^{-(x_{(1)}-\theta)}}{1 - e^{-(x_{(1)}-\theta)}}\\
+        &n - n e^{-(x_{(1)}-\theta)} = e^{-(x_{(1)}-\theta)}\\
+        &n = (n+1) e^{-(x_{(1)}-\theta)}\\
+        & e^{-(x_{(1)}-\theta)} = \frac{n}{n+1}\\
+        & -x_{(1)} + \theta = \ln \frac{n}{n+1}\\
+        & \theta = x_{(1)} + \ln \frac{n}{n+1}
+    \end{align*}
+
+    Это максимум (можно проверить через вторую производную), поэтому оценка $\thetah = X_{(1)} + \ln \frac{n}{n+1}$ является ОМС. 
+\end{proof}
+
+\problem Углы четырехугольника $ABCD$ многократно (по $n$ раз каждый) измерены с независимыми погрешностями $\mathcal{N}(0, \sigma^2)$. Найти ОМП для углов и $\sigma^2$. Выразить ответ через выборочные средние и выборочные дисперсии наблюдения для каждого угла.
+
+\begin{proof}
+    У нас есть $4n$ измерений, по $n$ на каждый угол четырехугольника. Каждое измерение есть случайная величина $X_{i,j}$, где $i$ --- индекс угла, $j$ --- номер измерения. Они имеют вид
+    \[
+    X_{i,j} = \theta_i + \mathcal{N}(0, \sigma^2) = \mathcal{N}(\theta_i, \sigma^2)
+    \]
+    И тогда, казалось бы, все сводится к оценке параметров нормального распределения, которое мы умеем оценивать. Но тут есть ограничение: сказано, что $\theta_i$ --- углы четырехугольника, а значит, накладывается еще условие
+    \[\theta_1 + \theta_2 + \theta_3 + \theta_4 = 2\pi.\]
+    Поэтому это нужно будет учесть. А именно, напишем функцию правдоподобия
+    \[
+    L(x_{i,j}; \theta_i; \sigma^2) = \prod_{i=1}^4 \prod_{j=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x_{i,j}-\theta_i)^2}{2\sigma^2}}
+    \]
+    Возьмем логарифм:
+    \[
+    \ln L = \sum_{i=1}^4 \sum_{j=1}^n \braces{-\frac{1}{2}\ln (2\pi\sigma^2) - \frac{(x_{i,j}-\theta_i)^2}{2\sigma^2}} = -2n \ln (2\pi) - 2n \ln \sigma^2 - \sum_{i=1}^4 \sum_{j=1}^n \frac{(x_{i,j}-\theta_i)^2}{2\sigma^2}
+    \]
+    Дальше надо найти максимум этой функции. Но в данной задаче накладывается условие на углы, поэтому нужно искать условный максимум. Для этого есть метод Лагранжа. По этому методу нужно выписать функцию Лагранжа
+    \[
+    \mathcal{L} = \ln L + \lambda(\theta_1 + \theta_2 + \theta_3 + \theta_4 - 2\pi)
+    \]
+    и решить систему уравнений
+    \[
+    \begin{cases}
+        \frac{\partial\mathcal{L}}{\partial \theta_i} = 0, \quad i = 1,2,3,4\\
+        \frac{\partial\mathcal{L}}{\partial \sigma^2} = 0\\
+        \frac{\partial\mathcal{L}}{\partial \la} = \theta_1 + \theta_2 + \theta_3 + \theta_4 - 2\pi = 0
+    \end{cases}
+    \]
+    Найдем производные по $\theta_i$:
+    \begin{align*}
+        &\frac{\partial\mathcal{L}}{\partial \theta_i} = \sum_{j=1}^n \frac{x_{i,j} - \theta_i}{\sigma^2} + \la = \frac{n}{\sigma^2} (\overline{x_i} - \theta_i) + \la = 0\\
+        &\theta_i = \overline{x_i} + \frac{\sigma^2}{n} \la
+    \end{align*}
+    Теперь подставим в условие на сумму углов
+    \[
+    \sum_{i=1}^4 \overline{x_i} +\frac{4\sigma^2}{n} \la = 2\pi \Rightarrow \la = \frac{n}{4\sigma^2}\braces{2\pi - \sum_{i=1}^4 \overline{x_i}}
+    \]
+    Подставим обратно в выражения для $\theta_i$:
+    \[
+    \boxed{\thetah_i = \overline{x_i} +\frac{1}{4} \braces{2\pi - \sum_{i=1}^4 \overline{x_i}}} 
+    \]
+    То есть добавляется усредненное отклонение суммы углов от $2\pi$.
+
+    Теперь найдем оценку для $\sigma^2$:
+    \begin{align*}
+        & \frac{\partial\mathcal{L}}{\partial \sigma^2} = \frac{\partial\ln L}{\partial \sigma^2} = -\frac{2n}{\sigma^2} + \frac{1}{2\sigma^4} \sum_{i=1}^4 \sum_{j=1}^n (x_{i,j} - \theta_i)^2 = 0 \quad |  \cdot \sigma^4 \\
+        & -2n\sigma^2 + \frac{1}{2}\sum_{i=1}^4\sum_{j=1}^n (x_{i,j} - \theta_i)^2 = 0\\
+        & \boxed{\hat\sigma^2 = \frac{1}{4n} \sum_{i=1}^4\sum_{j=1}^n (x_{i,j} - \thetah_i)^2}
+    \end{align*}
+    Теперь остается только выразить $\sigma^2$ через выборочные средние и выборочные дисперсии (обозначим $s = \frac{1}{n}\sum (x_i - \overline{x})^2$).
+
+    Для этого обозначим $\alpha = \frac{1}{4}\braces{2\pi - \sum_{i=1}^4 \overline{x_i}}$, тогда
+    \[
+    \thetah_i = \overline{x_i} + \alpha.
+    \]
+    Тогда
+    \begin{align*}
+        \hat\sigma^2 &= \frac{1}{4n} \sum_{i=1}^4\sum_{j=1}^n (x_{i,j} - \overline{x_i} - \alpha)^2 = \\
+        & = \frac{1}{4n} \sum_{i=1}^4\sum_{j=1}^n ((x_{i,j} - \overline{x_i})^2 - 2\alpha(x_{i,j} - \overline{x_i}) + \alpha^2) =\\
+        & = \frac{1}{4} \sum_{i=1}^4 (s_i - 2\alpha \underbrace{\sum_{j=1}^n (x_{i,j} - \overline{x_i})}_{=0} + \alpha^2) = \frac{1}{4} \sum_{i=1}^4 s_i + \alpha^2
+    \end{align*}
+    То есть, если суммировать, то получаем
+    \[
+    \boxed{\hat\sigma^2 = \frac{1}{4} \sum_{i=1}^4 s_i + \braces{\frac{2\pi - \sum_{i=1}^4 \overline{x_i}}{4}}^2}
+    \]
+\end{proof}
+
+\problem Для оценки числа $N$ рыб в пруду пометили $m_1$ рыб, затем отпустили, а через несколько дней выловили $m_2$ рыб и подсчитали число $\mu$ помеченных рыб. Найти ОММ и ОМП для $N$. Выборка состоит из одного наблюдения.
+
+\begin{proof}
+    Сперва нужно понять, что здесь случайная величина, а что параметр. Итак, случайное наблюдение здесь --- число $\mu$ помеченных рыб среди выловленных $m_2$.
+
+    Случайной величине $\mu$ соответствует количество ''успехов'' при выборе $m_2$ элементов из $N$-элементного множества без возвращения, количество успешных вариантов --- $m_1$. Распределение такой случайной величины называется гипергеометрическим:
+    \[
+    \mu \sim HyperGeom(N, m_1, m_2)
+    \]
+    а, значит,
+    \[
+    P(\mu = k) = \frac{C_{m_1}^k C_{N-m_1}^{m_2-k}}{C_N^{m_2}}.
+    \]
+    Итак, параметры $m_1, m_2$ известны, нужно оценить параметр $N$.
+
+    Построим функцию правдоподобия по одному наблюдению:
+    \[
+    L(k; N) = P(\mu=k) = \frac{C_{m_1}^k C_{N-m_1}^{m_2-k}}{C_N^{m_2}}.
+    \]
+    То есть буквально переписали формулу. Теперь нужно максимизировать $L(k; N)$ по $N$. Для этого применяется трюк такой. Рассмотрим отношение $L(k; N)$ к $L(k; N-1)$:
+    \[
+    R(k; N) = \frac{L(k; N)}{L(k; N-1)}
+    \]
+    и найдем, в каких точках это отношение равняется единице. Если только в одной, то мы найдем глобальный максимум.
+
+    Итак,
+    \begin{align*}
+        R(k; N) &= \frac{C_{N-m_1}^{m_2-k}}{C_N^{m_2}} \cdot \frac{C_{N-1}^{m_2}}{C_{N-1-m_1}^{m_2-k}} = \\
+        & = \frac{(N-m_1)!}{(N-m_1-m_2+k)!} \frac{m_2! (N-m_2)!}{N!} \cdot \\
+        & \qquad \cdot \frac{(N-1)!}{m_2! (N-1-m_2)!} \frac{(m_2-k)! (N-1-m_1-m_2+k)!}{(N-1-m_1)!} = \\
+        & = \frac{(N-m_1) (N-m_2)}{(N-m_1-m_2+k) N}
+    \end{align*}
+    Теперь
+    \begin{align*}
+        &R(k;N) \le 1 \Leftrightarrow \frac{(N-m_1) (N-m_2)}{(N-m_1-m_2+k) N} \le 1 \Leftrightarrow \\
+        & \Leftrightarrow N^2-Nm_1-Nm_2 + m_1m_2 \le N^2-Nm_1 - Nm_2 + Nk \Leftrightarrow\\
+        & \Leftrightarrow N \ge \frac{m_1m_2}{k}
+    \end{align*}
+    То есть, начиная с $N = \lfloor \frac{m_1 m_2}{k} \rfloor + 1$ функция правдоподобия не возрастает. При этом вплоть до $N = \lfloor \frac{m_1 m_2}{k} \rfloor$ --- не убывает. Поэтому ОМП здесь будет
+    \[
+    \boxed{\hat N = \left\lfloor \frac{m_1 m_2}{\mu} \right\rfloor}
+    \]
+
+    См. обсуждения по ссылке на \href{https://math.stackexchange.com/questions/3210550/find-an-estimator-of-n-hypergeometric}{MathStackExchange}.
+
+    Теперь построим ОММ. Для этого надо найти $E\mu$. Понятно, что считать в лоб не хочется, ибо имеем выражение
+    \[
+    E\mu = \sum_{k=0}^{m_2} kP(\mu = k) = \sum_{k=0}^{m_2} k \frac{C_{m_1}^k C_{N-m_1}^{m_2-k}}{C_N^{m_2}}.
+    \]
+    Поэтому разобьем в сумму $\mu = X_1 + \cdots X_{m_2}$, где $X_i$ --- $i$-ая рыба помеченная или не помеченная. То есть $X_i \sim Bern(p_i)$. Кто-то сразу скажет, чему равны $p_i$, но на мой взгляд ответ не очевиден. Найдем, чему же они равны.
+
+    Итак, $p_1 = m_1/N$, это очевидно. А что с $p_2$?
+    \begin{align*}
+        P(X_2 = 1) &= P(X_2 = 1 \mid X_1 = 0) P(X_1 = 0) + P(X_2 = 1 \mid X_1 = 1) P(X_1 = 1) =\\
+        & = \frac{m_1}{N-1} \braces{1 - \frac{m_1}{N}} + \frac{m_1 - 1}{N-1} \frac{m_1}{N} = \frac{m_1}{N}
+    \end{align*}
+    То есть $X_i \sim Bern(\frac{m_1}{N})$.
+
+    Значит, $E\mu = \sum EX_i = m_2 EX_1 = m_2 \frac{m_1}{N}$. По ЗБЧ, оценка $\overline{\mu} \equiv \mu$ является состоятельной для $E\mu = a(N) = \frac{m_1 m_2}{N}$, откуда
+    \[
+    \hat N = \frac{m_1 m_2}{\mu}.
+    \]
+
+    Обсуждения можно почитать \href{https://math.stackexchange.com/questions/1853678/hypergeometric-random-variable-expectation}{тут} и \href{https://math.stackexchange.com/questions/4369903/prove-that-hypergeometric-random-variable-can-be-written-as-sum-of-dependent-id}{тут}.
+
+    А в целом эта задача имеет самые разные применения и об этом методе подсчета популяции есть статья на википедии \href{https://en.wikipedia.org/wiki/Mark_and_recapture}{Mark and recapture}.
+\end{proof}
+
+\section*{Информация} \addcontentsline{toc}{section}{Информация}
+
+\newpage
+
+\section*{Чисто задачи по теории вероятностей} \addcontentsline{toc}{section}{Чисто задачи по теории вероятностей}
+
+\subsection*{Сходимости (Convegences)} \addcontentsline{toc}{subsection}{Сходимости (Convegences)}
+\textbf{Задача.} Пусть $X_i \sim R[0,1]$ --- н.о.р. Найти предел по распределению $n \min_{i \le n} X_i$.
+
+\begin{proof}
+    Обозначим $Y_n = n \min_{i \le n} X_n$. Найдем функцию распределения $Y_n$:
+    \begin{align*}
+        F_{Y_n}(x) &= P(n \min_{i \le n} X_n \le x) = P\braces{\min_{i \le n} X_n \le \frac{x}{n}} =\\
+        &=P\braces{ \exists i \le n: X_i \le \frac{x}{n}} = P\braces{\overline{\forall i\le n \quad X_i > \frac{x}{n}}} = \\
+        &= 1 - P\braces{\forall i\le n \quad X_i > \frac{x}{n}} = 1 - P\braces{X_1 > \frac{x}{n}}^n = \\
+        & = 1 - \braces{1 - F_{X_1}\braces{\frac{x}{n}}}^n = 1 - \braces{1 - \frac{x}{n}}^n \xrightarrow[n \rightarrow \infty]{} 1 - e^{-x}.
+    \end{align*}
+
+    Таким образом, $Y_n \myarrow{d} \Exp(1)$.
+\end{proof}
+
+\textbf{Задача.} Показать, что для сходимости по вероятности $X_n \myarrow{P} X$, $Y_n \myarrow{P} Y$ следует $X_nY_n \myarrow{P} XY$. Верно ли это для сходимости по распределению?
+
+\begin{proof}
+    Покажем, что $X_n \myarrow{P} X,\ Y_n \myarrow{P} Y \Rightarrow X_n Y_n \myarrow{P} XY$. Для этого нужно показать, что $\forall \ep > 0 \ \ P(|X_nY_n - XY| > \ep) \rightarrow 0$.
+
+    Когда видим подобную разность, сразу хочется прибавить и вычесть $X_nY$, чтобы сгрупировались более удобные для оценки члены:
+    $$|X_nY_n + X_nY - X_nY - XY| = |X_n(Y_n - Y) + Y(X_n-X)| \le |X_n(Y_n - Y)| + |Y(X_n-X)|$$
+    Тогда
+    $$P(|X_nY_n - XY| > \ep) \le P(|X_n(Y_n - Y)| + |Y(X_n-X)| > \ep)$$
+    Что делать с этим? Хочется разбить в сумму двух вероятностей, но так просто это сделать нельзя. Нужен трюк. Воспользуемся тем, что если $a + b > c$, то $a > c/2$ или $b > c/2$. Поэтому верно вложение событий
+    $$\{|X_n(Y_n - Y)| + |Y(X_n-X)| > \ep\} \subseteq \{|X_n(Y_n - Y)| > \ep/2\} \cup \{|Y(X_n-X)| > \ep/2\},$$
+    а из него очевидно следует неравенство
+    $$P(|X_n(Y_n - Y)| + |Y(X_n-X)| > \ep) \le P(|X_n(Y_n - Y)| > \ep/2) + P(|Y(X_n-X)| > \ep/2)$$
+    Теперь нужно оценить каждое из двух получившихся неравенств, чтобы показать, что они оба стремятся к нулю.
+
+    Рассмотрим $P(|X_n(Y_n - Y)| > \ep/2)$. Заметим, что тут мы по сути хотим доказать лемму, что если $X_n \myarrow{P}X , Z_n\myarrow{P} 0$, то $X_nZ_n \myarrow{P} 0$. Но останемся в наших терминах. Итак, нужно воспользоваться исходными сходимостями, применив формулу полной вероятности.
+    \begin{align*}
+        P(|X_n(Y_n - Y)| &> \ep/2) = P(|X_n(Y_n - Y)| > \ep/2 \ | \ |Y_n -Y| <\delta) P(|Y_n -Y| <\delta) +\\
+        &+ P(|X_n(Y_n - Y)| > \ep/2 \ | \ |Y_n -Y| > \delta) P(|Y_n -Y| > \delta)
+    \end{align*}
+    Второе слагаемое стремится к нулю, а $P(|Y_n -Y| <\delta) \rightarrow 1$. Поэтому нужно оценить
+    \begin{align*}
+        P(|X_n(Y_n - Y)| > \ep/2 \ | \ |Y_n -Y| <\delta) \le P(\delta|X_n| > \ep / 2) = P\braces{|X_n| > \frac{\ep}{2\delta}}
+    \end{align*}
+    Тут с одной стороны не понятно, что дальше делать. А с другой, ничего не остается как воспользоваться сходимостью $X_n$ к $X$. Как воспользоваться опять не понятно, но опять вариант только один --- формула полной вероятности.
+    \begin{align*}
+        P\braces{|X_n| > \frac{\ep}{2\delta}} &= P\braces{|X_n| > \frac{\ep}{2\delta} \ | \ |X-X_n| > \gamma} P(|X_n-X| > \gamma) + \\
+        &+ P\braces{|X_n| > \frac{\ep}{2\delta} \ | \ |X-X_n| \le \gamma} P(|X_n-X| \le \gamma)
+    \end{align*}
+    Первое слагаемое стремится к нулю по условию. Во втором $P(|X_n-X| \le \gamma) \rightarrow 1$. Таким образом, остается посмотреть на
+    \begin{align*}
+        P\braces{|X_n| > \frac{\ep}{2\delta} \ | \ |X-X_n| \le \gamma} &= P\braces{|X_n - X + X| > \frac{\ep}{2\delta} \ | \ |X-X_n| > \gamma} \le \\
+        & \le P\braces{|X_n - X| + |X| > \frac{\ep}{2\delta} \ | \ |X-X_n| > \gamma} \le \\
+        & \le P\braces{\gamma + |X| > \frac{\ep}{2\delta}} = P\braces{|X| > \frac{\ep}{2\delta} - \gamma}
+    \end{align*}
+    Так как $\gamma$ и $\delta$ --- любые положительные числа, то число можно сделать эту вероятность сколько угодно малой, увеличивая число $\frac{\ep}{2\delta} - \gamma$. Таким образом, 
+    $$P(|X_n(Y_n - Y)| > \ep/2) \rightarrow 0.$$
+
+    Осталось показать, что $P(|Y(X_n-X)| > \ep/2) \rightarrow 0$. Это делается аналогично, но чуть легче.
+
+    Идея решения взята \href{https://math.stackexchange.com/questions/339124/convergence-in-probability-of-the-product-of-two-random-variables}{отсюда}.
+
+    При этом для сходимости по распределению утверждение неверно. Возьмем $X_n = Y_n = X \sim \mathcal{N}(0,1)$ и $Y \sim \mathcal{N}(0,1)$. Тогда $X_n \myarrow{d} X$, $Y_n \myarrow{d} Y$, но $X_n Y_n = X^2$ не сходится по распределению к $XY$, так как
+    $$P(X^2 < 0) = 0, \qquad P(XY < 0) = \frac{1}{2}.$$
+    Пример взят \href{https://stats.stackexchange.com/questions/616405/example-of-product-of-sequence-of-random-variables-that-does-not-converge-in-dis}{отсюда}.
+\end{proof}
+
+\subsection*{ЦПТ и ЗБЧ (CLT and LLN)} \addcontentsline{toc}{subsection}{ЦПТ и ЗБЧ (CLT and LLN)}
+Таблица со значениями функции распределения нормальной случайной величины $\mathcal{N}(0,1)$ --- \href{https://en.wikipedia.org/wiki/Standard_normal_table#Cumulative_from_minus_infinity_to_Z}{здесь}.
+
+\textbf{Задача.} Вероятность выпуска бракованной скрепки $0.02$. Скрепки продаются упаковками по 100 штук. Какая (приближенно) вероятность того, что в двух упаковках будет хотя бы одна бракованная скрепка? Что 102 упаковок хватит для набора 10000 целых скрепок?
+
+\begin{proof}
+    Пусть $X_i$ --- состояние $i$-ой скрепки, т.е. $X_i \sim Bern(0.98)$. Тогда 
+    $$EX_i = 0.98, \quad DX_i = p(1-p) = 0.98 \cdot 0.02 = 0.0196.$$
+    Нам надо найти
+    \begin{align*}
+        P\braces{\sum_{i=1}^{200} X_i \le 199} = P\braces{\frac{\sum_{i=1}^{200} X_i - 200\cdot 0.98}{\sqrt{0.0196 \cdot 200}} \le \frac{199 - 200\cdot 0.98}{\sqrt{0.0196 \cdot 200}}} \approx \Phi(1.515) \approx 0.93
+    \end{align*}
+
+    Во втором вопросе нужно найти
+    \begin{align*}
+        P\braces{\sum_{i=1}^{10200} X_i \ge 10000} &= 1 - P\braces{\sum_{i=1}^{10200} X_i \le 9999} = \\
+        & = 1 - P\braces{\frac{\sum_{i=1}^{10200} X_i - 10200\cdot 0.98}{\sqrt{0.0196 \cdot 10200}} \le \frac{9999 - 10200\cdot 0.98}{\sqrt{0.0196 \cdot 10200}}} \approx \\
+        & \approx 1 - \Phi(0.212) \approx 1 - 0.58 = 0.42.
+    \end{align*}
+\end{proof}
+
+\textbf{Задача.} Пусть $\xi_i \sim R[1,3]$ --- н.о.р. Найти предел п.н. а) среднего арифметического $\xi_i$, б) среднего гармонического $\xi_i$, в) среднего геометрического $\xi_i$.
+
+\begin{proof}
+    Обозначим
+    \begin{align*}
+        &A(x_1, \ldots, x_n) = \frac{1}{n} \sum_{i=1}^n x_i \quad \text{среднее арифметическое}\\
+        &H(x_1, \ldots, x_n) = \frac{n}{\sum_{i=1}^n \frac{1}{x_i}} \quad \text{среднее гармоническое}\\
+        &G(x_1, \ldots, x_n) = \braces{\prod_{i=1}^n x_i}^{\frac{1}{n}} \quad \text{среднее геометрическое}\\
+    \end{align*}
+
+    Пункт (а). Из УЗБЧ знаем, что $A(\xi_1, \ldots, \xi_n) \myarrow{\text{п.н.}} E\xi_1 = 2.$
+    
+    Пункт (б). Нужно сводить к УЗБЧ, т.е. выразить среднее гармоническое через среднее арифметическое. Понятно как:
+    $$H(x_1, \ldots, x_n) = \frac{1}{A\braces{\frac{1}{x_1}, \ldots, \frac{1}{x_n}}},$$
+    поэтому
+    $$H(\xi_1, \ldots, \xi_n) \myarrow{\text{п.н.}} \frac{1}{E\braces{\frac{1}{\xi_1}}}.$$
+    Вычислим
+    $$E\braces{\frac{1}{\xi_1}} = \frac{1}{3-1}\int_1^3 \frac{1}{x}dx = \frac{1}{2}\ln3$$
+    Таким образом, 
+    $$H(\xi_1, \ldots, \xi_n) \myarrow{\text{п.н.}} \frac{2}{\ln 3}$$
+
+    Пункт (в). Заметим, что $\ln G(x_1, \ldots, x_n) = \frac{1}{n} \sum_{i=1}^n \ln x_i = A(\ln x_1, \ldots, \ln x_n)$, т.е.
+    $$G(\xi_1, \ldots, \xi_n) = e^{A(\ln \xi_1, \ldots, \ln \xi_n)} \myarrow{\text{п.н.}} e^{E\ln \xi_1}.$$
+    Вычислим
+    $$E(\ln \xi_1) = \frac{1}{2} \int_1^3 \ln x dx = \frac{1}{2} \braces{x\ln x \bigg|_1^3 - \int_1^3 dx} = \frac{3 \ln 3 - 2}{2}.$$
+    Таким образом,
+    $$G(\xi_1, \ldots, \xi_n)  \myarrow{\text{п.н.}} e^{\frac{3 \ln 3 - 2}{2}}$$
+\end{proof}
+
+\textbf{Задача.} В подъезде горит лампочка. Если лампочка сгорает, то ее тут же меняют на новую. Лампочки работают н.о.р. временя $T_i$, $ET_i =a$. Пусть $N_t$ --- число сгоревших за время $t$ лампочек  Доказать. что
+$$\frac{N_t}{t} \myarrow{P} \frac{1}{a}, \quad t \rightarrow +\infty.$$
+(В теории случайных процессов $N_t$ называется Пуассоновским процессом, а это утверждение является аналогом ЗБЧ для Пуассоновского процесса).
+
+\begin{proof}
+    Здесь нужно применить какую-то из предельных теорем. ЦПТ здесь явно не помогает, поэтому попробуем применить ЗБЧ. Для этого нам нужно перейти к рассмотрению сумм случайных величин.
+
+    У нас из условия есть времена $T_i$. Обозначим $S_n = \sum_{i=0}^n T_i$. Легко понять, что
+    $$S_{N_t} \le t < S_{N_t+1}$$
+    Поделим на $N_t$:
+    $$\frac{S_{N_t}}{N_t} \le \frac{t}{N_t} < \frac{S_{N_t+1}}{N_t}$$
+    Тут мы уже видим, что нужно применить лемму о двух полицейских, показав сходимость к одному числу левого и правого выражений. По УЗБЧ
+    $$\frac{S_{N_t}}{N_t} \myarrow{\text{п.н.}} a$$
+    Теперь рассмотрим
+    $$\frac{S_{N_t+1}}{N_t} = \frac{S_{N_t+1}}{N_t+1} \cdot \frac{N_t+1}{N_t} = \frac{S_{N_t+1}}{N_t+1} \cdot \braces{1 + \frac{1}{N_t}} \myarrow{\text{п.н.}} a.$$
+    И по лемме о двух полицейских
+    $$\frac{t}{N_t}  \myarrow{\text{п.н.}} a \Rightarrow \frac{N_t}{t} \myarrow{\text{п.н.}} \frac{1}{a}.$$
+
+    Мы доказали более сильный результат, использовав УЗБЧ. Если бы использовали ЗБЧ, то получили бы ровно то, что просили.
+\end{proof}
+
+\begin{smallproof}
+    Приведем другой вариант доказательства предыдущего утверждения. Это доказательство взято из лекций по случайным процессам В.И. Афанасьева. Оно выглядит сложнее в плане значков, но зато не подразумевает знания леммы о двух полицейских (и вообще идее о том, что к ней нужно сводить задачу), утверждения о том, что $X_n \myarrow{P} c \Rightarrow \frac{1}{X_n} \myarrow{P} \frac{1}{c}$, и о том, что $X_n \myarrow{P}X, Y_n\myarrow{P} Y \Rightarrow X_nY_n \myarrow{P} XY$.
+
+    Итак, мы хотим доказать, что $\frac{N_t}{t} \myarrow{P} \frac{1}{a}$. По определению это означает, что
+    $$P\braces{\bigg| \frac{N_t}{t} - \frac{1}{a}\bigg| > \ep} \rightarrow 0, \quad t\rightarrow +\infty.$$
+    Ясно, что
+    $$P\braces{\bigg| \frac{N_t}{t} - \frac{1}{a}\bigg| > \ep} = P\braces{\frac{N_t}{t} - \frac{1}{a} > \ep} + P\braces{\frac{N_t}{t} - \frac{1}{a} < -\ep}$$
+    Нужно показать, что оба слагаемых стремятся к нулю. Рассмотрим первое.
+    $$P\braces{\frac{N_t}{t} - \frac{1}{a} > \ep} = P\braces{N_t > t\braces{\ep + \frac{1}{a}}} = P\braces{N_t > k(t)},$$
+    где $k(t) = \lceil t\braces{\ep + \frac{1}{a}} \rceil$. Далее
+    $$P\braces{N_t > k(t)} = P(S_{k(t)} < t) = P\braces{\frac{S_{k(t)}}{k(t)} - a < \frac{t}{k(t)}- a}$$
+    Распишем теперь
+    $$\frac{t}{k(t)}-a \le \frac{t}{t(\ep+\frac{1}{a})} -a = - \frac{a^2 \ep}{a\ep +1} =: -\ep_1.$$
+    Поэтому
+    $$ P\braces{\frac{S_{k(t)}}{k(t)} - a < \frac{t}{k(t)}- a} \le  P\braces{\frac{S_{k(t)}}{k(t)} - a < -\ep_1} \rightarrow 0, \quad t \rightarrow +\infty,$$
+    что следует из ЗБЧ.
+
+    То есть мы доказали, что
+    $$P\braces{\frac{N_t}{t} - \frac{1}{a} > \ep} \rightarrow 0, \quad t \rightarrow +\infty,$$
+    аналогично и второе слагаемое стремится к нулю. Откуда следует требуемый результат.
+\end{smallproof}
+
+\textbf{Задача.} Не производя вычислений, доказать, что
+$$e^{-n} \sum_{k=0}^n \frac{n^k}{k!} \rightarrow \frac{1}{2}, \quad \sum_{k=0}^n C_{n+k-1}^k 2^{-n-k} \rightarrow \frac{1}{2}$$
+при $n \rightarrow \infty$.
+
+\begin{proof}
+    Вспомним распределение Пуассона с параметром $\la$:
+    $$X \sim Poiss(\la) \Rightarrow P(X=k) = e^{-\la}\frac{\la^k}{k!}, \quad k=0,1,\ldots$$
+    Поэтому можно заметить, что если $X \sim Poiss(n)$, то
+    $$e^{-n} \sum_{k=0}^n \frac{n^k}{k!} = \sum_{k=0}^n P(X = k) = P(X \le n).$$
+    Но если взять $X_1, \ldots, X_n \sim Poiss(1)$, то $X \overset{d}{=} X_1 + \cdots + X_n$, а значит, используя ЦПТ,
+    $$P(X \le n) = P(X_1 + \cdots + X_n \le n) = P\braces{\braces{\frac{S_n}{n} - 1} \frac{\sqrt n}{\sqrt 1} \le 0} \rightarrow \Phi(0) = \frac{1}{2}.$$
+
+    Теперь докажем вторую формулу. Здесь нужно понять, какой эксперимент соответствует величине $X$ с распределением
+    $$P(X = k) = C_{n+k-1}^k 2^{n+k}.$$
+    Можно увидеть, что некий бернуллиевский эксперимент с параметром $p = 1/2$ производится $n+k$ раз, из них $n+k-1$ результатов могут варьироваться так, что $k$ из них выпадает один из двух вариантов.
+
+    Такое распределение называется \textit{отрицательным биномиальным распределением} или \textit{распределением Паскаля}, обозначается $NB(n, p)$. Случайная величина с таким распределением показывает количество неуспехов до $n$-го успеха.
+
+    Тогда мы можем понять, что исходную величину можно представить в виде суммы $X_i \sim Geom\braces{\frac{1}{2}}$:
+    $$X = X_1 + \cdots + X_n.$$
+    Вспомним, как для $X_i \sim Geom(p)$ выражаются математическое ожидание и дисперсия:
+    $$EX_i = \frac{1-p}{p} \bigg|_{p=\frac{1}{2}} =  1, \quad DX_i = \frac{1-p}{p^2}\bigg|_{p=\frac{1}{2}} = 2.$$
+    Теперь можем применять ЦПТ:
+    $$P(X \le n) = P(S_n \le n) = P\braces{\braces{\frac{S_n}{n}-1}\frac{\sqrt n}{\sqrt 2} \le 0} \rightarrow \Phi(0) = \frac{1}{2}.$$
+\end{proof}
+
+\textbf{Задача.} Показать, что в ЦПТ не может выполняться сходимость по вероятности.
+
+\begin{proof}
+    В ЦПТ мы имеем утверждение о том, что если $X_i$ --- н.о.р. величины с конечной дисперсией, то
+    $$\braces{\frac{S_n}{n} - EX_1}\frac{\sqrt n}{\sqrt{DX_1}} \myarrow{d} U \sim \mathcal{N}(0,1).$$
+    Вопрос в том, можно ли сходимость по распределению заменить на более сильную сходимость по вероятности. Утверждается, что нельзя. Для доказательства этого достаточно привести пример, когда сходимость по вероятности не выполняется.
+
+    Рассмотрим $X_i \sim \mathcal{N}(0,1)$ (можно и другие, главное, чтобы $EX_i = 0,$ $DX_i = 1$). Тогда утверждение ЦПТ упростится:
+    $$Y_n := \frac{S_n}{\sqrt{n}} \myarrow{d} U \sim \mathcal{N}(0,1).$$
+    Покажем, используя критерий Коши, что данная последовательность по вероятности рассходится. Для этого нужно показать, что 
+    $$\forall \ep > 0 \quad P(|Y_n - Y_m| > \ep) \not\rightarrow 0, \quad n, m \rightarrow \infty.$$
+    Будем брать $m = 2n$, тогда
+    \begin{align*}
+        P(|Y_{2n} - Y_n| &> \ep) = P\braces{\bigg|\frac{S_{2n}}{\sqrt{2n}} - \frac{S_{n}}{\sqrt{n}} \bigg| > \ep} = \\
+        & = P\braces{\bigg|\frac{1}{\sqrt{2n}} \sum_{i=1}^{2n} X_i - \frac{1}{\sqrt{n}} \sum_{i=1}^{n} X_i\bigg| > \ep} = \\
+        & = P\braces{\bigg|\frac{1}{\sqrt{2n}} \sum_{i=n+1}^{2n} X_i - \braces{\frac{1}{\sqrt{n}} - \frac{1}{\sqrt{2n}}} \sum_{i=1}^{n} X_i\bigg| > \ep} \ge\\
+        & \ge \big[\text{воспользуемся неравенством } |a-b| \ge |a| - |b| \big] \ge \\
+        & \ge P\braces{\frac{1}{\sqrt{2n}} \bigg|\sum_{i=n+1}^{2n} X_i\bigg| - \braces{\frac{1}{\sqrt{n}} - \frac{1}{\sqrt{2n}}} \bigg|\sum_{i=1}^{n} X_i\bigg| > \ep} \ge \big[\text{трюк}\big] \ge\\
+        & \ge P\braces{\frac{1}{\sqrt{2n}} \bigg|\sum_{i=n+1}^{2n} X_i\bigg| > 2\ep,  \braces{\frac{1}{\sqrt{n}} - \frac{1}{\sqrt{2n}}} \bigg|\sum_{i=1}^{n} X_i\bigg| < \ep} \\
+        & = \big[\text{исп. независимость}\big] =\\
+        & = P\braces{\frac{1}{\sqrt{2n}} \bigg|\sum_{i=n+1}^{2n} X_i\bigg| > 2\ep}  P\braces{\braces{\frac{1}{\sqrt{n}} - \frac{1}{\sqrt{2n}}} \bigg|\sum_{i=1}^{n} X_i\bigg| < \ep} =\\
+        &  = P\braces{\frac{1}{\sqrt{2n}} \bigg|\sum_{i=1}^{n} X_i\bigg| > 2\ep}  P\braces{\braces{\frac{1}{\sqrt{n}} - \frac{1}{\sqrt{2n}}} \bigg|\sum_{i=1}^{n} X_i\bigg| < \ep} = \\
+        & = P\braces{\frac{1}{\sqrt{n}} \left| S_n \right| > 2\sqrt{2}\ep} P\braces{\frac{1}{\sqrt{n}} \left| S_n \right| > \frac{\ep}{1 - \frac{1}{\sqrt{2}}}} \rightarrow \\
+        & \rightarrow 2\Phi(-2\sqrt{2}\ep) \braces{1 - 2\Phi\braces{-\frac{\ep}{1-\frac{1}{\sqrt 2}}}} > 0.
+    \end{align*}
+
+    Таким образом, предела по вероятности у последовательности $\frac{S_n}{\sqrt{n}}$ не существует.
+
+    Доказательство взято \href{https://youtu.be/_MViabXtO6E?si=2jXD3DxhvoZFw_JI}{отсюда}.
+\end{proof}
+
+\textbf{Задача.} Верен ли ЗБЧ для $Y_i$, где а) $Y_i = iX_i$, $$\frac{1- P(X_i=0)}{2} = P(X_i)=P(X_i=-1) = \frac{1}{(2i)^2},$$
+б) $P(Y_i=2^{2^i})=P(Y_i=-2^{2^i}) = \frac{1}{2}$.
+
+\begin{proof}
+    Пункт (а). Вычислим $EY_i$:
+    $$EY_i = iEX_i = i\braces{-1 \cdot \frac{1}{(2i)^2} + 1\cdot \frac{1}{(2i)^2}} = 0$$
+    Далее, $DY_i = EY_i^2 - (EY_i)^2 = i^2EX_i^2 = i^2 \cdot 2 \cdot \frac{1}{(2i)^2} = \frac{1}{2} < \infty$. Таким образом, применим ЗБЧ. Это легко показать, применив неравенство Чебышева:
+    $$P\braces{\bigg| \frac{S_n}{n} \bigg| > \ep} \le \frac{D\braces{S_n/n}}{\ep} = \frac{n/2}{n^2\ep} = \frac{1}{2n\ep} \rightarrow 0.$$
+    Пункт (б). Здесь тоже $EY_i = 0$, но дисперсия уже неограниченная: $DY_i = EY_i^2 = \braces{2^{2^i}}^2 = 2^{2^i+1}$. Предположим, что тем не менее сходимость $\frac{S_n}{n} \myarrow{P} 0$ выполняется. Тогда выполняется и сходимость $\frac{S_n}{n} \myarrow{d} 0$. Но это очевидно не так (см. графики функций распределения). А значит имеем противоречие.
+\end{proof}
+
+\textbf{Задача.} Доказать, что если $\frac{N_n}{n} \myarrow{P} a$ и $N_n$ целочисленна и не зависит от $X_i$ --- н.о.р. с $EX_i = 0$, $DX_i = 1$, то
+$$\frac{S_{N_n}}{\sqrt n} \myarrow{d} Z \sim \mathcal{N}(0,a).$$
+
+\begin{proof}
+    \textbf{Доказательство 1.} Представим
+    $$\frac{S_{N_n}}{\sqrt{n}} = \frac{S_{N_n}}{\sqrt{N_n}} \cdot \frac{\sqrt{N_n}}{\sqrt{n}}$$
+    Покажем, что первый множитель сходится по распредению к $\mathcal{N}(0,1)$. При этом второй множитель по условию сходится к $\sqrt{a}$ по вероятности. Отсюда, используя лемму Слуцкого получим требуемый результат.
+
+    Итак, пусть $\ep > 0$. Тогда из ЦПТ следует, что найдется такой номер $N_\ep$, что
+    $$\forall n > N_\ep \quad \left|P\braces{ \frac{S_{N_n}}{\sqrt{N_n} } \le x  \mid N_n > N_\ep} - \Phi(x)\right| < \ep/2.$$
+    Но нам нужно избавиться от этого условия, чтобы получить требуемое, а именно, что найдется $N_\ep$:
+    $$\forall n > N_\ep \quad \left| P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x} - \Phi(x)\right| < \ep.$$
+    Для этого распишем, используя формулу полной вероятности,
+    \begin{align*}
+        P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x} &- \Phi(x) = P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x \mid N_n > N_\ep} P(N_n>N_\ep) - \Phi(x) P(N_n > N_\ep) + \\
+        & + P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x \mid N_n \le N_\ep} P(N_n \le N_\ep) - \Phi(x) P(N_n \le N_\ep) <\\
+        & < \frac{\ep}{2} + \braces{P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x \mid N_n \le N_\ep} - \Phi(x)} P(N_n \le N_\ep) = (*)
+    \end{align*}
+    Здесь мы использовали оценку, которую получили выше. Теперь осталось оценить второе слагаемое из полученного выражения. Для начала заметим, что
+    $$P\braces{\frac{S_{N_n}}{\sqrt{N_n} } \le x \mid N_n \le N_\ep} - \Phi(x) \le 1.$$
+    Поэтому нужно лишь показать, что $P(N_n \le N_\ep) < \ep/2$.
+
+    По условию $\frac{N_n}{n} \myarrow{P} a$, то есть
+    $$\forall \ep > 0 \ \ P\braces{\left| \frac{N_n}{n} - a \right| > \ep} \rightarrow 0, \quad n \rightarrow \infty.$$
+    Но заметим, что
+    $$P\braces{\left| \frac{N_n}{n} - a \right| > \ep} \ge P\braces{\frac{N_n}{n} - a < -\ep} = P\braces{N_n < n( a - \ep)} \ge P(N_n < N_\ep)$$
+    Последнее неравенство верно для больших $n$ (но именно они нас и интересуют). Отсюда
+    $P(N_n \le N_\ep) \rightarrow 0$ при $n\rightarrow \infty$, т.е. начиная с некоторого номера \mbox{$P(N_n \le N_\ep) < \ep/2$}. Таким образом, $(*) < \ep$, а значит мы показали, что
+    $$\frac{S_{N_n}}{\sqrt{N_n}} \myarrow{d} \mathcal{N}(0,1).$$
+
+    Наконец, по лемме Слуцкого получаем, что
+    $$\frac{S_{N_n}}{\sqrt{n}} \myarrow{d} \mathcal{N}(0,a).$$
+    
+    \textbf{Доказательство 2 (с использованием неравенства Колмогорова).} Сведем к ЦПТ, а дальше посмотрим что делать. Для этого представим $S_{N_n} = S_n + (S_{N_n} - S_n)$. Тогда
+    $$\frac{S_{N_n}}{\sqrt n} = \frac{S_n}{\sqrt n} + \frac{S_{N_n} - S_n}{\sqrt n}$$
+    Но это не совсем то, что нам нужно, потому что первое слагаемое стремится по распределению к $\mathcal{N}(0,1)$, поэтому даже если мы найдем предел второго слагаемого, то непонятно как получить дальше $\mathcal{N}(0,a)$. Судя по утверждению, в этом слагаемом должен крыться дополнительный разброс. Поэтому хотелось бы иметь сумму из двух слагаемых, одно из которых стремится к $\mathcal{N}(0,a)$, а второе стремится к нулю по вероятности. Тогда по лемме Слуцкого мы получим требуемый результат.
+
+    Тогда попробуем так:
+    \begin{align*}
+        \frac{S_{N_n}}{\sqrt{n}} &= \sqrt{a}\frac{S_{N_n}}{\sqrt {na}} = \sqrt{a}\frac{S_{N_n}}{\sqrt {\lfloor na\rfloor + \{na\}}} =\\
+        &= \sqrt{a}\frac{S_{N_n}}{\sqrt{\lfloor na\rfloor}}\frac{\sqrt{\lfloor na\rfloor}}{\sqrt {\lfloor na\rfloor + \{na\}}} = \sqrt{a}\frac{S_{N_n}}{\sqrt{\lfloor na\rfloor}} \braces{1+O\braces{\frac{1}{n}}}
+    \end{align*}
+    А проще так:
+    $$\frac{S_{N_n}}{\sqrt{n}} = \frac{S_{N_n}}{\sqrt{\lfloor na \rfloor}} \cdot \frac{\sqrt{\lfloor na \rfloor}}{\sqrt{n}}$$
+    Здесь второй множитель стремится к $\sqrt{a}$. Тогда нужно показать, что первый множитель сходится по распределению к $\mathcal{N}(0,1)$. То есть задача сводится к случаю $a=1$: надо доказать, что $\frac{S_{N_n}}{\sqrt{n}} \myarrow{d} \mathcal{N}(0,1)$, если $\frac{N_n}{n} \myarrow{P} 1$ (эта переформулировка нужна для упрощения дальнейших рассуждений).
+
+    Тогда можем вернуться к представлению
+    $$\frac{S_{N_n}}{\sqrt n} = \frac{S_n}{\sqrt n} + \frac{S_{N_n} - S_n}{\sqrt n}$$
+    и тут уже остается показать, что $\frac{S_{N_n} - S_n}{\sqrt n} \myarrow{d} 0$ или, что равносильно, $\frac{S_{N_n} - S_n}{\sqrt n} \myarrow{P} 0$.
+    \begin{align*}
+        P\braces{\left| \frac{S_{N_n} - S_n}{\sqrt{n}} \right| \ge \ep} &= P\braces{\left| S_{N_n} - S_n \right| \ge \ep\sqrt{n}}  = \\
+        & = P(|S_{N_n} - S_n| \ge \ep\sqrt{n}, |N_n-n| \ge \ep^3n) + \\
+        & + P(|S_{N_n} - S_n| \ge \ep\sqrt{n}, |N_n-n| < \ep^3n) \le \\
+        & \le P( |N_n - n| \ge \ep^3 n) + P\braces{\max_{|k-n| < \ep^3 n} |S_k-S_n| \ge \ep\sqrt{n}}
+    \end{align*}
+    Первое слагаемое стремится к нулю, потому что $\frac{N_n}{n} \myarrow{P}1$ по условию. Чтобы оценить второе слагаемое, воспользуемся неравенством Колмогорова:
+    $$P\braces{\max_{|k-n| < \ep^3 n} |S_k-S_n| \ge \ep\sqrt{n}} \le \frac{1}{\ep^2 n} \sum_{k: |k-n| < \ep^3n} DX_k \le \frac{2n\ep^3}{n\ep^2} = 2\ep.$$
+    
+\end{proof}
+
+\section*{Теория меры} \addcontentsline{toc}{section}{Теория меры}
+\subsection*{Начало. Неизмеримое множество} \addcontentsline{toc}{subsection}{Начало. Неизмеримое множество}
+Понятно, что с древности нужно было измерять длины и площади. Но тогда также понятно и то, откуда взялась теория меры --- раз мы умеем измерять длины прямых отрезков и площади прямоугольников, хочется как-то \textit{продолжить} это умение и на кривые линии, и на площади фигур с кривыми границами, и вообще на все подмножества прямой и плоскости (ну и далее объема и т.п.). 
+
+Другими словами, мы хотим определить меру --- начнем с малого --- на прямой, т.е. функцию:
+\[
+    \mu : 2^{\R} \rightarrow \R_{\ge 0}
+\]
+причем такую, которая обладает свойствами
+\begin{align*}
+    &1)\ \mu([a,b]) = b-a\\
+    &2) \ \mu(A + \alpha) = \mu(A) \ - \text{сдвиг}\\
+    &3) \ \mu\left(\bigsqcup_{k=1}^\infty A_k \right) = \sum_{k=1}^\infty \mu(A_k) \ - \sigma\text{-аддитивность}
+\end{align*}
+
+\textbf{Утвержение}. Меры $\mu$ со свойствами 1)---3) не существует.
+
+\begin{proof}
+    Предположим, что существует такая мера $\mu$.
+
+    Пусть $a \sim b$ (эквивалентны), если $a - b \in \mathbb{Q}$. Тогда $\R$ разбивается на классы эквивалентности:
+    $$\R = \bigsqcup_\alpha K_\alpha.$$
+    Очевидно, что $K_\alpha \cap[0,1] \neq \emptyset$, поэтому, используя аксиому выбора, мы можем взять из каждого класса элемент
+    $$x_\alpha \in K_\alpha \cap [0,1].$$
+    И тогда мы получим множество "хитрое-прехитрое, которое Лебег придумал"\ $$A:=\{x_\alpha\}_\alpha$$
+    Теперь занумерум все рациональные числа на $[-1,1]$:
+    $$\{r_n\} = \mathbb{Q} \cap [-1,1].$$
+    Заметим, что
+    $$[0,1] \subseteq \bigsqcup_{n=1}^\infty (A+r_n) \subseteq [-1,2]$$
+    Второе вложение очевидно. Посмотрим на первое. Пусть $a \in [0,1]$. Тогда если $a \in \mathbb{Q}$, то можно взять $x_a \in A \cap \mathbb{Q}$ и $r_{n_a} = x_a - a$. Пусть теперь $a \not\in \mathbb{Q}$. Тогда если бы $\forall r_n \ a - r_n \not\in A$, то это бы противоречило построению $A$.
+
+    Таким образом, по свойству 3) получаем, что
+    \[
+        1 = \mu([0,1]) \le \mu\braces{\bigsqcup_{n=1}^\infty (A+r_n)} = \sum_{n=1}^\infty \mu(A) \le \mu([-1,2]) = 3.
+    \]
+    Если $\mu(A) = 0$, то получаем $1 \le 0$. Если $\mu(A) > 0$, то ряд $\sum_{n=1}^\infty \mu(A)$ расходится. Получили противоречие.
+\end{proof}
+
+Поэтому Лебег рассматривал меру на измеримых множествах
+$$\mu: \Lambda_n \rightarrow \R_{\ge 0}.$$
+Вопрос только в том, что из себя представляет $\Lambda_n$.
+
+\newpage
+\begin{center}
+\begin{tikzpicture}[
+    node distance = 2cm,
+    every node/.style={align=center},
+    box/.style = {rectangle, draw, minimum width=6cm, minimum height=1cm},
+    arrow/.style = {thick, ->, >=stealth}
+]
+
+% Узлы
+\node (space) [box] {Вероятностное пространство \\ $(\Omega, \mathcal{F}, P)$};
+\node (rv) [box, below=of space] {Случайные величины \\ $X$};
+\node (chars) [box, below=of rv] {Характеристики случайных величин \\ $EX$, $DX$};
+\node (theorems) [box, below=of chars] {ЗБЧ и ЦПТ};
+
+% Стрелки
+\draw [arrow] (space.south) -- (rv.north);
+\draw [arrow] (rv.south) -- (chars.north);
+\draw [arrow] (chars.south) -- (theorems.north);
+
+% Рисунок плотности нормального распределения
+\begin{scope}[shift={(6cm,-4cm)}] % Смещение рисунка вправо
+    \draw[thick,->] (-2,0) -- (2,0) node[right] {$x$}; % Ось x
+    \draw[thick,->] (0,-0.1) -- (0,1.2) node[above] {$f_X(x)$}; % Ось y
+    \draw[thick, domain=-2:2, smooth, samples=100] plot (\x, {exp(-(\x)^2)}) node[right] {}; % Гауссовская кривая
+\end{scope}
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\nocite{*}
+\printbibliography[nottype=unpublished]
+
+\end{document}
