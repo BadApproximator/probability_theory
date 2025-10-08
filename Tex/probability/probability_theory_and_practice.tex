@@ -2152,11 +2152,74 @@ var X = E(X-EX)^2
 \]
 называется дисперсией случайной величины $X$ (variance).
 
-\subsection*{Закон больших чисел}\addcontentsline{toc}{subsection}{Закон больших чисел}
+\threestars
 
-\subsection*{Центральная предельная теорема}\addcontentsline{toc}{subsection}{Центральная предельная теорема}
+\ex Распределение Бернулли: $X \sim Bern(p)$ --- бросание монетки. $X$ принимает два значения: $1$ с вероятностью $p$ (успех) и $0$ с вероятностью $1-p$ (неуспех).
 
-\subsection*{Задачи}\addcontentsline{toc}{subsection}{Задачи}
+\begin{proof}
+    $$EX = 0 \cdot (1-p) + 1 \cdot p = p$$
+\end{proof}
+
+\ex Биномиальное распределение: $X \sim Binom(n, p)$ --- число орлов при бросании монетки $n$ раз.
+\begin{proof}
+    \begin{align*}
+        EX &= \sum_{k=0}^n k\cdot P(X=k) = \sum_{k=0}^n k\cdot C_n^k p^k (1-p)^k \\
+        &= \sum_{k=1}^n \frac{n!}{(k-1)!(n-k)!} p^k (1-p)^{n-k} = \\
+        &= np \sum_{k=1}^n \frac{(n-1)!}{(k-1)!(n-k)!} p^{k-1} (1-p)^{(n-1)-(k-1)} = np
+    \end{align*}
+    
+    Но можно и проще, если заметить, что $X = X_1 + \ldots + X_n$, где где $X_k \sim Bern(p)$:
+    $$EX = EX_1 + \ldots + EX_n = np.$$
+\end{proof}
+
+\ex Геометрическое распределение: $X \sim Geom(p)$ --- число бросков до первого орла (успеха).
+\begin{proof}
+    Сначала отметим, что $P(X = k) = p(1-p)^{k}$. Тогда
+    $$EX = \sum_{k=0}^\infty k p(1-p)^k.$$
+    Чтобы такое вычислить, нужно использовать трюк. Рассмотрим функцию
+    $$\ph_X(s) = \sum_{k=0}^\infty s^k p(1-p)^k$$
+    (эта функция называется производящей).
+    
+    Тогда $\ph_X'(1) = EX$.
+
+    Считаем:
+    \begin{align*}
+        &\ph_X(s) = \sum_{k=0}^\infty s^k p(1-p)^k = p \sum_{k=0}^\infty (s(1-p))^k = p\frac{1}{1-s(1-p)}\\
+        &\ph_X'(s) = \frac{p(1-p)}{(1-s(1-p))^2}\\
+        &\ph_X'(1) = \frac{1-p}{p}
+    \end{align*}
+\end{proof}
+
+\ex Пусть есть $N$ ячеек, в которые бросают $n$ шаров. Шары могут попадать в одни и те же ячейки. $X$ --- число занятых ячеек.
+
+\begin{tikzpicture}
+    % Параметры
+    \def \N {7} % Количество ячеек
+    \def \size {0.5} % Размер стороны квадрата
+    
+    % Рисуем ячейки
+    \foreach \i in {1,...,\N} {
+        \draw[thick] (\i*\size, 0) rectangle ({\i*\size + \size}, \size);
+    }
+    
+    % Добавляем подпись к каждой ячейке
+    %\foreach \i in {1,...,\N} {
+    %    \node at ({\i*\size + 0.5*\size}, {0.5*\size}) {\(\i\)};
+    %}
+\end{tikzpicture}
+
+\begin{proof}
+    Представим $X = X_1 + \ldots + X_N$, где $X_k$ --- занята ли $k$-я ячейка. Тогда
+    $$EX = \sum EX_k = NEX_1$$
+    так как все равно какую ячейку рассматриваем.
+
+    Далее,
+    $$EX_1 = 0 \cdot P(X_1 = 0) + 1 \cdot P(X_1 = 1) = P(X_1 = 1) = 1 - P(X_1 = 0) = 1-\braces{\frac{N-1}{N}}^n$$
+
+    Таким образом,
+    $$EX = N\braces{1-\braces{\frac{N-1}{N}}^n}$$
+\end{proof}
+
 \task[(Рулетка)] В комнате $n$ человек, у каждого револьвер, по звонку каждый стреляет в случайного человека (кроме себя). Пусть  $X_n$ --- число выживших. Найти $EX_n$.
 
 \begin{proof}
@@ -2187,6 +2250,13 @@ var X = E(X-EX)^2
     Отсюда можно заметить, что доля выживших
     $$\frac{EX_n}{n} = \braces{\frac{n-2}{n-1}}^{n-1} = \braces{1-\frac{1}{n-1}}^{n-1} \rightarrow \frac{1}{e}.$$
 \end{proof}
+
+\subsection*{Закон больших чисел}\addcontentsline{toc}{subsection}{Закон больших чисел}
+
+\subsection*{Центральная предельная теорема}\addcontentsline{toc}{subsection}{Центральная предельная теорема}
+
+\subsection*{Задачи}\addcontentsline{toc}{subsection}{Задачи}
+
 
 \section*{Сюжеты}\addcontentsline{toc}{section}{Сюжеты}
 \subsection*{Счастливые билеты}\addcontentsline{toc}{subsection}{Счастливые билеты}
