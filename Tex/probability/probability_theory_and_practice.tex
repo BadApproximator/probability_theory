@@ -2175,6 +2175,47 @@ EX = x_1 p_1 + x_2 p_2 + \cdots x_n p_n
     $$EX = EX_1 + \ldots + EX_n = np.$$
 \end{proof}
 
+\theor[] Пусть $X,Y$ -- дискретные случайные величины. Тогда
+\begin{enumerate}
+    \item $E(cX) = cEx$, где $c \in \R$
+    \item $E(X+Y) = EX + EY$
+    \item $X \ge 0 \Rightarrow EX \ge 0$
+    \item $Y \le X \Rightarrow EY \le EX$
+\end{enumerate}
+
+\begin{proof}
+    1. Так как случайная величина $X$ принимает конечное число значений, то ее можно представить в виде линейной комбинации индикаторов:
+    \[
+    X = \sum_{i=1}^n a_i I_{A_i}.
+    \]
+    Тогда
+    \begin{align*}
+    &cX = \sum_{i=1}^{n} (ca_i) I_{A_i}\\
+    &E(cX) = \sum_{i=1}^n ca_i P(A_i) = c\sum_{i=1}^{n} a_i P(A_i) = cEX.
+    \end{align*}
+    2. Аналогично, запишем случайные величины как суммы индикаторов:
+    \[
+    X = \sum_{i=1}^{n} a_i I_{A_i},\quad Y = \sum_{i=1}^{m} b_i I_{B_i}.
+    \]
+    Тогда сумма $X+Y$ принимает значения $a_i+b_j$ на множествах $A_i \cap B_j$, т.е.
+    \[
+    X+Y = \sum_{i=1}^{n} \sum_{j=1}^{m} (a_i+b_j) I_{A_i \cap B_j}.
+    \] 
+    Тогда математическое ожидание
+    \begin{align*}
+        E(X+Y) &= \sum_{i=1}^{n} \sum_{j=1}^{m} (a_i+b_j) P(A_i \cap B_j) = \\
+        &= \sum_{i=1}^{n} \sum_{j=1}^{m} a_i P(A_i \cap B_j) + \sum_{i=1}^{n} \sum_{j=1}^{m} b_j P(A_i \cap B_j) = \\
+        &= \sum_{i=1}^{n} a_i \sum_{j=1}^{m} P(A_i \cap B_j) + \sum_{j=1}^{m} b_j \sum_{i=1}^{n} P(A_i \cap B_j) = \\
+        &= \sum_{i=1}^{n} a_i P(A_i) + \sum_{j=1}^{m} b_j P(B_j) = EX + EY.
+    \end{align*}
+    3. $X \ge 0 \Rightarrow X(\omega) \ge 0 \quad \forall \omega \in \Omega$. Поэтому $\forall i \ \ a_i \ge 0$ и
+    \[
+    EX = \sum_{i=1}^{n} a_i I_{A_i} \ge 0.
+    \]
+    4. $Y \le X \Rightarrow X-Y \ge 0 \Rightarrow E(X-Y) = E(X+(-Y)) = EX+E(-Y) = EX-EY \ge 0$.
+    
+\end{proof}
+
 \ex Геометрическое распределение: $X \sim Geom(p)$ --- число бросков до первого орла (успеха).
 \begin{proof}
     Сначала отметим, что $P(X = k) = p(1-p)^{k}$. Тогда
