@@ -2554,6 +2554,29 @@ TODO: геометрия корреляции и основные теоремы
     \[
     \Var X = EX^2 - (EX)^2 \approx 983.57 - 857.9 = 125.67.
     \]
+
+    Красивый метод решения.
+
+    Величины $X_i$ имеют геометрическое распределение $X_i \sim Geom(p_i)$, где $p_i = \frac{n-i+1}{n}$. Это было показано выше. Зная свойства геометрического распределения, можно быстро вычислить $EX_i$ и $\Var X_i$:
+    \[
+    EX_i = \frac{1}{p_i}, \qquad \Var X_i = \frac{1-p_i}{p_i^2}.
+    \]
+    Так как $X_i$ независимы, то
+    \begin{align*}
+    \Var X &= \sum_{i=1}^n \Var X_i = \sum_{i=1}^n \frac{1 - p_i}{p_i^2} = \sum_{i=1}^n \frac{n(i-1)}{(n-i+1)^2} = \\
+    & = | j = n-k+1 | = \sum_{j=1}^{n} \frac{n(n-j)}{j^2} = \\
+    & = n^2\sum_{j=1}^n \frac{1}{j^2} - n\sum_{j=1}^{n} \frac{1}{j} = \\
+    & = n^2 H_n^{(2)} - n H_n,
+    \end{align*}
+    где
+    \begin{align*}
+        &H_n = \sum_{k=1}^n \frac{1}{k} = \ln n + \gamma + o(1)\\
+        &H_n^{(2)} = \sum_{k=1}^n \frac{1}{k^2} = \frac{\pi^2}{6} - \frac{1}{n} + O\braces{\frac{1}{n^2}}.
+    \end{align*}
+    Откуда получаем асимптотическую формулу для дисперсии
+    \[
+    \Var X = \frac{n^2 \pi^2}{6} - n\ln n + O(n).
+    \]
 \end{proof}
 
 \section*{Пределы}\addcontentsline{toc}{section}{Пределы}
