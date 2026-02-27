@@ -79,6 +79,7 @@
 \DeclareMathOperator{\Span}{span}
 \DeclareMathOperator{\res}{res}
 \DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\supp}{supp}
 
 \newcounter{z-counter}
 \newcounter{th-counter}
@@ -1414,6 +1415,60 @@ D(x_1, \ldots, x_n; \theta) = \frac{x_{(1)} (x_{(2)} - x_{(1)}) \cdots (\theta -
 \end{proof}
 
 \section*{Информация} \addcontentsline{toc}{section}{Информация}
+
+\subsection*{Задачи} \addcontentsline{toc}{subsection}{Задачи}
+
+\problem Найти расстояние Кульбака--Лейблера между а) $\exp(\theta)$ и $\mathcal{N}(\theta, \s)$; б) в обратном порядке.
+
+\begin{proof}
+    Экспоненциальное распределение $\exp(\theta)$ имеет плотность
+    \[
+    f(x) = \theta e^{-\theta x} I_{x \ge 0}(x).
+    \]
+    Нормальное распределение $\mathcal{N}(\theta, \s)$ имеет плотность
+    \[
+    g(x) = \frac{1}{\sqrt{2\pi \s^2}} e^{- \frac{(x-\theta)^2}{2\s^2}}.
+    \]
+    Расстояние Кульбака--Лейблера находится по формуле
+    \[
+    \rho_{KL}(F, G) = \int_{\supp f} \ln \braces{\frac{f(x)}{g(x)}} f(x) dx,
+    \]
+    т.е. раскрывая, получаем
+    \begin{align*}
+        \rho_{KL}(F, G) &= \int_{\supp f} \ln \braces{\frac{\theta e^{-\theta x} I_{x \ge 0}(x)}{\frac{1}{\sqrt{2\pi \s^2}} e^{- \frac{(x-\theta)^2}{2\s^2}}}} \theta e^{-\theta x} I_{x \ge 0}(x) dx = \\
+        & = \int_0^{+\infty}\ln \braces{\frac{\theta e^{-\theta x}}{\frac{1}{\sqrt{2\pi \s^2}} e^{- \frac{(x-\theta)^2}{2\s^2}}}} \theta e^{-\theta x} dx = I_1 - I_2.
+    \end{align*}
+    Теперь вычислим отдельно $I_1$ и $I_2$, полученные из разности логарифмов.
+    \begin{align*}
+        I_1 &= \int_0^{+\infty} \ln (\theta e^{-\theta x}) \theta e^{-\theta x} dx = \int_0^{+\infty} (\ln\theta - \theta x) \theta e^{-\theta x} dx =\\
+        & = \ln \theta \int_0^{+\infty} f(x) dx - \theta \int_{0}^{+\infty} x f(x) dx = \\
+        & = \ln \theta - \theta \cdot \frac{1}{\theta} = \ln \theta - 1.
+    \end{align*}
+    Далее,
+    \begin{align*}
+        I_2 &= \int_0^{+\infty} \ln \braces{\frac{1}{\sqrt{2\pi \s^2}}e^{- \frac{(x-\theta)^2}{2\s^2}}} \theta e^{-\theta x} dx = \\
+        & = -\frac{1}{2} \ln (2\pi \s^2) - \int_0^{+\infty} \frac{(x-\theta)^2}{2\s^2} \theta e^{-\theta x} dx = (*).
+    \end{align*}
+    Вычислим получившийся интеграл, используя интегрирование по частям:
+    \begin{align*}
+        \int_0^{+\infty} \frac{(x-\theta)^2}{2\s^2} \theta e^{-\theta x} dx &= - \frac{(x-\theta)^2}{2\s^2} e^{-\theta x} \bigg|_0^{+\infty} + \int_{0}^{+\infty} \frac{x-\theta}{\s^2} e^{-\theta x} dx =\\
+        & = \frac{\theta^2}{2\s^2} - \frac{x-\theta}{\theta \s^2} e^{-\theta x}\bigg|_0^{+\infty} + \int_0^{+\infty} \frac{1}{\theta\s^2} e^{-\theta x} dx  = \\
+        & = \frac{\theta^2}{2\s^2} - \frac{1}{\s^2} + \frac{1}{\theta^2 \s^2} = \frac{1}{\s^2} \braces{\frac{\theta^2}{2} - 1 + \frac{1}{\theta^2}}.
+    \end{align*}
+    Теперь возвращаемся:
+    \begin{align*}
+        (*) = -\frac{1}{2} \ln (2\pi \s^2) - \frac{1}{\s^2} \braces{\frac{\theta^2}{2} - 1 + \frac{1}{\theta^2}}.
+    \end{align*}
+    Окончательно,
+    \[
+    \rho_{KL}(F, G) = \ln \theta - 1 + \frac{1}{2} \ln (2\pi \s^2) + \frac{1}{\s^2} \braces{\frac{\theta^2}{2} - 1 + \frac{1}{\theta^2}}.
+    \]
+    В обратную сторону,
+    \[
+    \rho_{KL}(G, F) = \infty
+    \]
+    из-за того, что $\supp f \subset \supp g$.
+\end{proof}
 
 \newpage
 
