@@ -2694,10 +2694,56 @@ X_n \myarrow{P} X \quad \Leftrightarrow \quad \forall \ep > 0 \quad P(|X_n - X| 
 \forall a > 0 \quad P(X > a) \le \frac{EX}{a}.
 \]
 
+\begin{proof}
+    Применим трюк, разложив $X = XI_{X>a} + XI_{X \le a}$:
+    \begin{align*}
+        EX = EXI_{X > a} + EX I_{X\le a} \ge EXI_{X > a} \ge a EI_{X>a} = a P(X > a).
+    \end{align*}
+    Получаем
+    \[
+    P(X > a) \le \frac{EX}{a}.
+    \]
+\end{proof}
+
+Заметим, что неравество Маркова становится содержательным только при $a \ge EX$. По сути это неравенство говорит о том, что вероятность уклонения от математического ожидания стремится к нулю при увеличении отклонения.
+
 \noindent\textbf{Следствие (Неравенство Чебышева).} Пусть $X$ -- случайная величина, причем $EX^2 < \infty$. Тогда 
 \[
 \forall \ep > 0 \quad P(|X-EX| > \ep) < \frac{\Var X}{\ep^2}. 
 \]
+\begin{proof}
+    Применим неравество Маркова для величины $(X-EX)^2$ и $a = \ep^2$:
+    \begin{align*}
+        P((X-EX)^2 > \ep^2) \le \frac{E(X-EX)^2}{\ep^2} = \frac{\Var X}{\ep^2}.
+    \end{align*}
+    При этом левая часть позволяет преобразование
+    \[
+    P((X-EX)^2 > \ep^2) = P(|X-EX| > \ep).
+    \]
+    Таким образом, получили требуемое неравество.
+\end{proof}
+
+Неравенство Чебышева связывает отклонение от матожидания с дисперсией случайной величины: чем меньше дисперсия, тем меньше вероятность большого отклонения.
+
+\noindent\textbf{Следствие (Правило трех сигм).} Пусть $\s = \sqrt{\Var X}$. Тогда
+\[
+P(|X-EX| \le 3\s) \ge \frac{8}{9}.
+\]
+\begin{proof}
+    Применим неравенство Чебышева для $\ep = 3\s$:
+    \[
+    P(|X-EX| > 3\s) \ge \frac{\s^2}{9\s^2} = \frac{1}{9}.
+    \]
+\end{proof}
+
+\noindent\textbf{Доказательство ЗБЧ.}
+\begin{proof}
+    Применим неравенство Чебышева к случайной величине $\frac{S_n}{n}$:
+    \begin{align*}
+        P\braces{\left|\frac{S_n}{n} - E\frac{S_n}{n}\right| > \ep} &= P\braces{\left|\frac{S_n}{n} - EX_1\right| > \ep} \le \frac{\Var \frac{S_n}{n}}{\ep^2} = \\
+        &= \frac{\Var X_1}{n\ep^2} \rightarrow 0, \quad n \rightarrow \infty.
+    \end{align*}
+\end{proof}
 
 \subsection*{Центральная предельная теорема}\addcontentsline{toc}{subsection}{Центральная предельная теорема}
 
